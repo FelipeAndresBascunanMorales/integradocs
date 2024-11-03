@@ -1,6 +1,5 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
-import { CreditCard, Calendar, BarChart, ShoppingBag, Truck, Package } from 'lucide-react';
+import { CreditCard, Calendar, BarChart, Truck, Package } from 'lucide-react';
 
 const integrationData = {
   transbank: {

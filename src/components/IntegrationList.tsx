@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { CreditCard, Calendar, BarChart, ShoppingBag, Truck, Package } from 'lucide-react';
+import { CreditCard, Calendar, BarChart, Truck, Package } from 'lucide-react';
 import { useSearch } from '../context/SearchContext';
 
 const integrationsByIndustry = {

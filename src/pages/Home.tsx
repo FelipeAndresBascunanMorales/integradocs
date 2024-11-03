@@ -1,5 +1,4 @@
-import React from 'react';
-import { Search, Zap, Code, DollarSign } from 'lucide-react';
+import { Zap, Code, DollarSign } from 'lucide-react';
 import { SearchBar } from '../components/SearchBar';
 import { IndustryGrid } from '../components/IndustryGrid';
 import { FeaturedIntegrations } from '../components/FeaturedIntegrations';
