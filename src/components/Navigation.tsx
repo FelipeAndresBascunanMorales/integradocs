@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+const navigation = [
+  { name: 'Inicio', href: '/' },
+  { name: 'E-commerce', href: '/industry/ecommerce' },
+  { name: 'Salud', href: '/industry/healthcare' },
+  { name: 'Marketing', href: '/industry/marketing' },
+];
+
 export function Navigation({ mobile }: { mobile?: boolean }) {
   const emojis = ['❤', '🚀', '🔥', '🌟', '👋', '🍉', '🍓', '🍒']
   const [randomEmoji, setRandomEmoji] = useState(emojis[Math.floor(Math.random() * emojis.length)])
-
+  
   useEffect(() => {
     const newEmoji = emojis[Math.floor(Math.random() * emojis.length)]
     setRandomEmoji(newEmoji)
-    document.title = `veelotu.cl - ${newEmoji}`
+    document.title = `veelotu.cl - ${randomEmoji}`
     return () => {
       document.title = 'veelotu.cl'
     }
   })
 
-  const navigation = [
-    { name: 'Inicio', href: randomEmoji },
-    { name: 'E-commerce', href: '/industry/ecommerce' },
-    { name: 'Salud', href: '/industry/healthcare' },
-    { name: 'Marketing', href: '/industry/marketing' },
-  ];
 
   const location = useLocation();
 

@@ -7,7 +7,8 @@ import { Integration } from './pages/Integration'
 import { BrowserRouter as Router, Routes, Route }  from 'react-router-dom'
 
 function App() {
-
+  const hart = '❤'
+  
   return (
     <Router>
       <SearchProvider>
@@ -16,7 +17,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/industry/:id" element={<Industry />} />
             <Route path="/integration/:id" element={<Integration />} />
-            <Route path="/:emojis" element={<Home />} />
+            <Route path={`/${hart}`} element={<Home />} />
           </Routes>
         </Layout>
       </SearchProvider>
