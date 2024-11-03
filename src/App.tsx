@@ -14,9 +14,9 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/:emojis" element={<Home />} />
             <Route path="/industry/:id" element={<Industry />} />
             <Route path="/integration/:id" element={<Integration />} />
+            <Route path="/:emojis" element={<Home />} />
           </Routes>
         </Layout>
       </SearchProvider>
