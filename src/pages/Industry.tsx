@@ -1,12 +1,12 @@
-import React from 'react';
-import { useParams } from '../components/Router';
+import { useParams } from 'react-router-dom';
 import { SearchBar } from '../components/SearchBar';
 import { IntegrationList } from '../components/IntegrationList';
 import { FilterPanel } from '../components/FilterPanel';
 
 export function Industry() {
-  const { id } = useParams<{ id: string }>();
+  const { id = 'unknown' } = useParams<{ id: string }>();
 
+  console.log("the id", id);
   const industryData = {
     ecommerce: {
       title: 'E-commerce',
@@ -20,7 +20,13 @@ export function Industry() {
       title: 'Marketing',
       description: 'Herramientas de marketing digital',
     },
-  }[id] || { title: 'Industria', description: 'Descripción' };
+    unknown: {
+      title: 'Unknown industry',
+      description: 'Try selecting an industry from the sidebar',
+    },
+  }[id] || { title: 'Unknown industry',
+    description: 'Try selecting an industry from the sidebar',
+  };
 
   return (
     <div className="space-y-8">

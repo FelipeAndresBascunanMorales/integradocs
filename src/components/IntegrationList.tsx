@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from './Router';
+import { Link } from 'react-router-dom';
 import { CreditCard, Calendar, BarChart, ShoppingBag, Truck, Package } from 'lucide-react';
 import { useSearch } from '../context/SearchContext';
 

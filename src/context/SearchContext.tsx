@@ -34,7 +34,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     complexity: [],
     cost: [],
     developerRequired: null,
-  });
+  } as SearchContextType['filters']);
 
   return (
     <SearchContext.Provider value={{ query, setQuery, filters, setFilters }}>

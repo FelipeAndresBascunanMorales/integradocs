@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from '../components/Router';
+import { useParams } from 'react-router-dom';
 import { CreditCard, Calendar, BarChart, ShoppingBag, Truck, Package } from 'lucide-react';
 
 const integrationData = {

@@ -1,9 +1,9 @@
-import React from 'react';
+import {useState, ReactNode} from 'react';
 import { Search, Menu, X } from 'lucide-react';
 import { Navigation } from './Navigation';
 
-export function Layout({ children }: { children: React.ReactNode }) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+export function Layout({ children }: { children: ReactNode }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50">

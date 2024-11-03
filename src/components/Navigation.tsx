@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link, useLocation } from './Router';
+import { Link, useLocation } from 'react-router-dom';
 
 const navigation = [
   { name: 'Inicio', href: '/' },
