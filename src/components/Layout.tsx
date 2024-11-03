@@ -1,6 +1,7 @@
 import {useState, ReactNode} from 'react';
 import { Search, Menu, X } from 'lucide-react';
 import { Navigation } from './Navigation';
+import { Link, } from 'react-router-dom';
 
 export function Layout({ children }: { children: ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,11 +13,13 @@ export function Layout({ children }: { children: ReactNode }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex-1 flex items-center justify-between">
+            <Link to={`/%E2%9D%A4`}>
               <div className="flex-shrink-0 flex items-center">
                 <Search className="h-8 w-8 text-indigo-600" />
-                <span className="ml-2 text-xl font-bold text-gray-900">IntegraDocs Chile</span>
+                <span className="ml-2 text-xl font-bold text-gray-900">VeeloTu.cl</span>
               </div>
-              
+            </Link>
+
               {/* Desktop Navigation */}
               <nav className="hidden md:flex space-x-8">
                 <Navigation />

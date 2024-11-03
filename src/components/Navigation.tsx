@@ -1,7 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 
+const emojis = ['❤', '🚀', '🔥', '🌟', '👋', '🍉', '🍓', '🍒']
+const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)]
+
 const navigation = [
-  { name: 'Inicio', href: '/' },
+  { name: 'Inicio', href: randomEmoji },
   { name: 'E-commerce', href: '/industry/ecommerce' },
   { name: 'Salud', href: '/industry/healthcare' },
   { name: 'Marketing', href: '/industry/marketing' },
