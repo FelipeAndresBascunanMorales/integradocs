@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { CreditCard, Calendar, BarChart, Truck, Package } from 'lucide-react';
 
 const integrationData = {
@@ -142,9 +142,13 @@ export function Integration() {
         </div>
 
         <div className="mt-6 grid grid-cols-3 gap-4">
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="text-sm font-medium text-gray-500">Categoría</h3>
-            <p className="mt-1 text-lg font-medium text-gray-900">{integration.category}</p>
+          <div className="group">
+            <Link to={`/${integration.category}`}>
+              <div className="p-4 bg-gray-50 rounded-lg border hover:shadow-md group-hover:text-indigo-400">
+                <h3 className="text-sm font-medium text-gray-500">Categoría</h3>
+                <p className="mt-1 text-lg font-medium text-gray-900">{integration.category}</p>
+              </div>
+            </Link>
           </div>
           <div className="p-4 bg-gray-50 rounded-lg">
             <h3 className="text-sm font-medium text-gray-500">Complejidad</h3>

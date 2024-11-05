@@ -6,6 +6,7 @@ const navigation = [
   { name: 'E-commerce', href: '/industry/ecommerce' },
   { name: 'Salud', href: '/industry/healthcare' },
   { name: 'Marketing', href: '/industry/marketing' },
+  { name: 'Especialistas', href: '/contactPage' },
 ];
 
 export function Navigation({ mobile }: { mobile?: boolean }) {
