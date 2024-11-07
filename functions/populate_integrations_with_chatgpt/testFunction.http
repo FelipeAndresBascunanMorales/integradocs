@@ -5,4 +5,4 @@ GET https://example.com/comments
 
 ###
 
-GET http://localhost:3000/
+GET http://localhost:3000/?prompt=bycicles

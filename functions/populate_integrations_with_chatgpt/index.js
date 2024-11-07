@@ -4,8 +4,8 @@ import { throwIfMissing } from './utils.js';
 
 export default async ({ req, log, res }) => {
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
-
-  const chatGptResponse = await askForOneIntegration();
+  const param = req.query.prompt;
+  const chatGptResponse = await askForOneIntegration(param);
 
   log("chatGptResponse", chatGptResponse);
   if (req.method === 'GET') {
