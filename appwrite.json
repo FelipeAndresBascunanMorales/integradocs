@@ -107,6 +107,40 @@
             "entrypoint": "index.js",
             "commands": "npm install",
             "path": "functions/Create Collections With ChatGPT - v3"
+        },
+        {
+            "$id": "672c042a000c50fe168b",
+            "execute": [
+                "any"
+            ],
+            "name": "Create Collections With ChatGPT - v4",
+            "enabled": true,
+            "logging": true,
+            "runtime": "node-22",
+            "scopes": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "entrypoint": "Create\\ Collections\\ With\\ ChatGPT\\ -\\ v4/index.js",
+            "commands": "cd Create\\ Collections\\ With\\ ChatGPT\\ -\\ v4\nnpm install",
+            "path": "functions/Create Collections With ChatGPT - v4"
+        },
+        {
+            "$id": "672c092800106a1a8092",
+            "execute": [
+                "any"
+            ],
+            "name": "Populate integrations with ChatGPT",
+            "enabled": true,
+            "logging": true,
+            "runtime": "node-22",
+            "scopes": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "entrypoint": "index.js",
+            "commands": "npm install",
+            "path": "functions/Populate integrations with ChatGPT"
         }
     ],
     "databases": [
