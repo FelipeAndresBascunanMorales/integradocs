@@ -1,11 +1,11 @@
 import { database, ID } from './appwriteProvider.js';
-import { askForIntegrationList } from './chatGPT.js';
+import { askForOneIntegration } from './chatGPT.js';
 import { throwIfMissing } from './utils.js';
 
 export default async ({ req, log, res }) => {
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
 
-  const chatGptResponse = askForIntegrationList();
+  const chatGptResponse = await askForOneIntegration();
 
   log("chatGptResponse", chatGptResponse);
   if (req.method === 'GET') {
