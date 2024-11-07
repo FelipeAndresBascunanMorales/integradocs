@@ -1,4 +1,4 @@
-import { database, ID } from './appWrite.js';
+import { database, ID } from './appwriteProvider.js';
 import { askForIntegrationList } from './chatGPT.js';
 import { throwIfMissing } from './utils.js';
 
