@@ -12,7 +12,7 @@ const response = await openai.chat.completions.create({
       "role": "system",
       "content": [
         {
-          "text": "You are an integrations specialist, you must return an integration in a json object format using real info from the real world acording the integration needs of the user",
+          "text": "You are an integrations specialist, you must return an integration in a json object format using real info from the real world acording to what the user require",
           "type": "text"
         }
       ]
@@ -73,18 +73,18 @@ const response = await openai.chat.completions.create({
         "properties": {
           "icon": {
             "type": "string",
-            "description": "A URL pointing to the icon of the application."
+            "description": "A URL pointing to the icon of the company that provide the integration."
           },
           "name": {
             "type": "string",
-            "description": "The name of the application."
+            "description": "The name of the integration itself."
           },
           "tags": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Tags associated with the application."
+            "description": "For any important Tags associated with the integration."
           },
           "kindOf": {
             "enum": [
@@ -95,26 +95,26 @@ const response = await openai.chat.completions.create({
               "Idontknow"
             ],
             "type": "string",
-            "description": "The type of the application."
+            "description": "The type of the Integration or the kind of technology that must be used."
           },
           "pricing": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Pricing information for the application."
+            "description": "Levels of pricing for the service like freemium free enterprise or any other."
           },
           "category": {
             "type": "string",
-            "description": "The category that the application belongs to."
+            "description": "The category that the integration belongs to."
           },
           "industry": {
             "type": "string",
-            "description": "The industry relevant to the application."
+            "description": "The industry relevant to the integration."
           },
           "complexity": {
             "type": "string",
-            "description": "The complexity of the application."
+            "description": "The complexity the integration have in words."
           },
           "requireDev": {
             "type": "boolean",
@@ -122,11 +122,11 @@ const response = await openai.chat.completions.create({
           },
           "description": {
             "type": "string",
-            "description": "A brief description of the application."
+            "description": "A brief description of the Integration."
           },
           "recommended": {
             "type": "boolean",
-            "description": "Indicates if the application is recommended."
+            "description": "Indicates if the application is between the recommended."
           },
           "complexityLevel": {
             "type": "integer",
