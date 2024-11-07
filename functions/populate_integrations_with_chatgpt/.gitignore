@@ -3,4 +3,5 @@ node_modules
 
 # Directory used by Appwrite CLI for local development
 .appwrite
+appwrite.json
 .env

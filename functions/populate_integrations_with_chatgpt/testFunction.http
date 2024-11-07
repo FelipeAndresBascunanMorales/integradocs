@@ -1,0 +1,8 @@
+GET https://example.com/comments
+    ?page=2
+    &pageSize=10
+
+
+###
+
+GET http://localhost:3000/
