@@ -4,22 +4,32 @@ import { throwIfMissing } from './utils.js';
 
 export default async ({ req, log, res }) => {
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
-  const param = req.query.prompt;
-  const chatGptResponse = await askForOneIntegration(param);
-
-  log("chatGptResponse", chatGptResponse);
   if (req.method === 'GET') {
+    const param = req.query.prompt;
+    const chatGptResponse = await askForOneIntegration(param);
+  
+    log("chatGptResponse", chatGptResponse);
 
     try {
-      const response1 = await database.createDocument (
+      const innerID = ID.unique();
+      const integrationsDetails = await database.createDocument (
         process.env.DATABASE_ID_VEELOTU,
-        process.env.COLLECTION_ID_INTEGRATIONS,
-        ID.unique(),
-        chatGptResponse,
+        process.env.COLLECTION_ID_INTEGRATION_DETAILS,
+        innerID,
+        chatGptResponse.integrationDetails,
         []
       );
 
-      log("response1", response1);
+      const integrations = await database.createDocument (
+        process.env.DATABASE_ID_VEELOTU,
+        process.env.COLLECTION_ID_INTEGRATIONS,
+        ID.unique(),
+        {...chatGptResponse, integrationDetails: innerID},
+        []
+      );
+
+      log("integrations", integrations);
+      log("integrationsDetails", integrationsDetails);
     }
     catch (err) {
       return res.json({ ok: false, error: err }, 400);

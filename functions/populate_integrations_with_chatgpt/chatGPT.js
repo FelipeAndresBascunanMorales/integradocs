@@ -7,6 +7,7 @@ async function askForOneIntegration(kindOfIntegration = 'i need to manage the pr
     
 const response = await openai.chat.completions.create({
   model: "gpt-4o",
+  temperature: 0.2,
   messages: [
     {
       "role": "system",
@@ -45,9 +46,7 @@ const response = await openai.chat.completions.create({
       ]
     }
   ],
-  temperature: 1,
   max_tokens: 2048,
-  top_p: 1,
   frequency_penalty: 0,
   presence_penalty: 0,
   response_format: {
@@ -68,7 +67,8 @@ const response = await openai.chat.completions.create({
           "pricing",
           "category",
           "industry",
-          "icon"
+          "icon",
+          "integrationDetails"
         ],
         "properties": {
           "icon": {
@@ -131,6 +131,49 @@ const response = await openai.chat.completions.create({
           "complexityLevel": {
             "type": "integer",
             "description": "The complexity level ranging from 0 to 100."
+          },
+          "integrationDetails": {
+            "type": "object",
+            "description": "more specific attributes.",
+            "required": [
+              "fullDescription",
+              "pros",
+              "cons",
+              "documentations",
+              "useCases"
+            ],
+            "properties": {
+              "fullDescription": {
+                "type": "string",
+                "description": "accurate description of the integration."
+              },
+              "pros": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "a list with the pros of the integration. if any."
+              },
+              "cons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "a list with the cons of the integration. if any."
+              },
+              "documentations": {
+                "type": "string",
+                "description": "a link to the official documentation for the integration."
+              },
+              "useCases": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "most common use cases for the integration."
+              }
+            },
+            "additionalProperties": false
           }
         },
         "additionalProperties": false
@@ -141,7 +184,7 @@ const response = await openai.chat.completions.create({
 });
 
     const jsonResponse = response.choices[0].message.content;
-    return jsonResponse;
+    return JSON.parse(jsonResponse);
   }catch (err) {
     throw new Error("Error in conversation: " + err);
   }

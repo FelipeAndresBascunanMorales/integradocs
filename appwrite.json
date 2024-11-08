@@ -121,7 +121,7 @@
                     "type": "string",
                     "required": false,
                     "array": false,
-                    "size": 100,
+                    "size": 200,
                     "default": ""
                 },
                 {
@@ -178,6 +178,18 @@
                     "array": false,
                     "format": "url",
                     "default": null
+                },
+                {
+                    "key": "integrationDetails",
+                    "type": "relationship",
+                    "required": false,
+                    "array": false,
+                    "relatedCollection": "672bbff6003166f511a0",
+                    "relationType": "oneToOne",
+                    "twoWay": false,
+                    "twoWayKey": "672d549c00296f4710bd",
+                    "onDelete": "cascade",
+                    "side": "parent"
                 }
             ],
             "indexes": []

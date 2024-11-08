@@ -65,7 +65,6 @@ const integrationsByCategory = {
 }
 export default function InnerCategory({ categories, industryId}: { categories: string[] | undefined, industryId : string }) {
 
-  console.log(categories);
   const filteredIntegrations = Object.entries(integrationsByCategory)
   .filter(([industry]) => categories?.includes(industry))
   .flatMap(([_, integrations]) => integrations);
