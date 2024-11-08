@@ -13,7 +13,7 @@ const response = await openai.chat.completions.create({
       "role": "system",
       "content": [
         {
-          "text": "You are an integrations specialist, you must return an integration in a json object format using real info from the real world acording to what the user require",
+          "text": "You are an integrations specialist,we need to populate our database with accurate data, because of that, you must return an integration json object format using real info from the web acording to what the user require",
           "type": "text"
         }
       ]
@@ -171,6 +171,20 @@ const response = await openai.chat.completions.create({
                   "type": "string"
                 },
                 "description": "most common use cases for the integration."
+              },
+              "supportedPlatforms": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of platforms supported by the integration."
+              },
+              "supportedTechnologies": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of technologies supported by the integration."
               }
             },
             "additionalProperties": false
@@ -188,6 +202,10 @@ const response = await openai.chat.completions.create({
   }catch (err) {
     throw new Error("Error in conversation: " + err);
   }
+}
+
+async function askForManyIntegrations() {
+return [];
 }
 
 async function askForIntegrationList() {
@@ -218,4 +236,4 @@ async function askForIntegrationList() {
 }
 
 
-  export { askForIntegrationList, askForOneIntegration };
+  export { askForIntegrationList, askForOneIntegration, askForManyIntegrations };
