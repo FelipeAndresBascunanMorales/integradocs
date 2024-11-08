@@ -6,8 +6,11 @@ export default async ({ req, log, res }) => {
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
   if (req.method === 'GET') {
     try {
-      const integration = getIntegration(req, log);
-      writeToCollection(integration, log);
+      const integration = await getIntegration(req, log);
+      log("chatGptResponse", integration);
+      const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
+      log("integrations", integrationDocument);
+      log("integrationsDetails", integrationsDetailsDocument);
     }
     catch (err) {
       return res.json({ ok: false, error: err }, 400);
@@ -21,7 +24,10 @@ export default async ({ req, log, res }) => {
     try {
       // take the body
       const integration = req.body;
-      askForManyIntegrations(integration, log);
+      await askForManyIntegrations(integration, log);
+      // something like, generate a json object for each of this integrations
+      // and then write to the database
+
     }
     catch (err) {
       return res.json({ ok: false, error: err }, 400);
@@ -29,16 +35,16 @@ export default async ({ req, log, res }) => {
 
     return res.json({ ok: false, error: 'Failed to query model.' }, 500);
   };
+  return res.json({ ok: false, error: 'Method not allowed' }, 405);
 }
 
 async function getIntegration(req, log) {
   const param = req.query.prompt;
-  const chatGptResponse = await askForOneIntegration(param);
-  log("chatGptResponse", chatGptResponse);
+  const chatGptResponse = await askForOneIntegration(param, log);
   return chatGptResponse;
 }
 
-async function writeToCollection(integration, log) {
+async function writeToCollection(integration) {
   const innerID = ID.unique();
   const integrationsDetailsDocument = await database.createDocument (
     process.env.DATABASE_ID_VEELOTU,
@@ -56,8 +62,6 @@ async function writeToCollection(integration, log) {
     []
   );
 
-  log("integrations", integrationDocument);
-  log("integrationsDetails", integrationsDetailsDocument);
-  return [integrationDocument, integrationsDetailsDocument];
+  return {integrationDocument, integrationsDetailsDocument};
 }
 

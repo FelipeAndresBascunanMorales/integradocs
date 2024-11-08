@@ -5,4 +5,4 @@ GET https://example.com/comments
 
 ###
 
-GET http://localhost:3000/?prompt=a%20am%20a%20musician
+GET http://localhost:3000/?prompt=i%20am%20a%20musician

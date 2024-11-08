@@ -4,8 +4,7 @@ const openai = new OpenAI();
 
 async function askForOneIntegration(kindOfIntegration = 'i need to manage the products and medicine of my local pharmacy') {
   try {
-    
-const response = await openai.chat.completions.create({
+  const response = await openai.chat.completions.create({
   model: "gpt-4o",
   temperature: 0.2,
   messages: [
@@ -140,7 +139,9 @@ const response = await openai.chat.completions.create({
               "pros",
               "cons",
               "documentations",
-              "useCases"
+              "useCases",
+              "supportedPlatforms",
+              "supportedTechnologies"
             ],
             "properties": {
               "fullDescription": {
@@ -196,7 +197,6 @@ const response = await openai.chat.completions.create({
     }
   },
 });
-
     const jsonResponse = response.choices[0].message.content;
     return JSON.parse(jsonResponse);
   }catch (err) {
