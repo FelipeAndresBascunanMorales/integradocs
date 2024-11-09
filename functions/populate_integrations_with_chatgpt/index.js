@@ -23,11 +23,16 @@ export default async ({ req, log, res }) => {
   if (req.method === 'POST') {
     try {
       // take the body
-      const integration = req.body;
-      await askForManyIntegrations(integration, log);
+      const integrationRequirement = req.body.integrations;
+      const integrationsList = await askForManyIntegrations(integrationRequirement);
       // something like, generate a json object for each of this integrations
       // and then write to the database
 
+      integrationsList.forEach(async integration => {
+        const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
+        log("integrations", integrationDocument);
+        log("integrationsDetails", integrationsDetailsDocument);
+      });
     }
     catch (err) {
       return res.json({ ok: false, error: err }, 400);

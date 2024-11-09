@@ -5,4 +5,86 @@ GET https://example.com/comments
 
 ###
 
-GET http://localhost:3000/?prompt=i%20am%20a%20beautifull%20women
+GET http://localhost:3000/?prompt=taxis%20control
+
+###
+
+POST http://localhost:3000/
+Content-Type: application/json
+
+{
+  "integrations": [
+    {
+      "name": "MuleSoft",
+      "type": "Integration Platform as a Service (iPaaS)",
+      "key_features": [
+        "Pre-built connectors for common systems such as Salesforce, SAP, Oracle, Workday, etc.",
+        "API management capabilities for both building and managing APIs",
+        "Data transformation tools to map and process data between systems",
+        "Support for both cloud and on-premises applications",
+        "Real-time data integration and synchronization",
+        "Robust security features such as role-based access control, encryption, and auditing"
+      ],
+      "use_cases": [
+        "Integrating ERP, CRM, and HR systems to create unified data access",
+        "Connecting legacy systems to modern cloud applications",
+        "Creating centralized API management across multiple departments"
+      ],
+      "pricing_model": "Custom pricing based on company size and usage",
+      "website": "https://www.mulesoft.com",
+      "example_integrations": [
+        "Salesforce with SAP",
+        "Workday with Oracle",
+        "ERP systems with inventory management systems"
+      ]
+    },
+    {
+      "name": "Zapier",
+      "type": "Automation Tool",
+      "key_features": [
+        "Supports over 3,000 apps, including CRM, email, project management, and productivity tools",
+        "No-code platform, suitable for non-technical users",
+        "Simple, trigger-based workflows (called 'Zaps') for automating tasks between apps",
+        "Offers multi-step Zaps and conditional logic",
+        "Pre-built templates to quickly automate common workflows",
+        "Task history tracking for monitoring workflow execution"
+      ],
+      "use_cases": [
+        "Syncing leads from CRM (e.g., Salesforce) to email marketing tools (e.g., Mailchimp)",
+        "Automatically sending Slack notifications for new support tickets",
+        "Creating automated task lists in project management software from emails"
+      ],
+      "pricing_model": "Freemium model with limited free tier and paid plans starting at $19.99/month",
+      "website": "https://www.zapier.com",
+      "example_integrations": [
+        "Syncing new Shopify orders with QuickBooks",
+        "Sending Trello updates to Slack",
+        "Creating Google Calendar events from Gmail emails"
+      ]
+    },
+    {
+      "name": "Integromat (Make)",
+      "type": "Integration and Automation Platform",
+      "key_features": [
+        "Advanced automation capabilities with the ability to connect and manipulate data between apps",
+        "Supports complex, multi-step workflows with custom logic and branching",
+        "Visual interface for building workflows with drag-and-drop functionality",
+        "Real-time data monitoring and error handling",
+        "Ability to connect cloud-based apps, databases, and web services",
+        "Supports custom HTTP requests and webhooks"
+      ],
+      "use_cases": [
+        "Syncing customer data between CRM and ERP systems",
+        "Automating customer support processes by integrating Zendesk with Slack and Google Sheets",
+        "Data migration from cloud apps like Dropbox to Google Drive"
+      ],
+      "pricing_model": "Free tier with limited operations, paid plans starting at $9/month",
+      "website": "https://www.make.com",
+      "example_integrations": [
+        "Syncing Airtable with Google Sheets",
+        "Automating social media posting from RSS feeds",
+        "Linking HubSpot with Gmail for email automation"
+      ]
+    }
+  ]
+}
