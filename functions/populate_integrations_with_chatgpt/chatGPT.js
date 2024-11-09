@@ -121,7 +121,7 @@ async function askForOneIntegration(kindOfIntegration = 'i need to manage the pr
           },
           "description": {
             "type": "string",
-            "description": "A brief description of the Integration."
+            "description": "A brief description of the Integration in less that 200 characters."
           },
           "recommended": {
             "type": "boolean",
