@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import { CreditCard, Calendar, BarChart, Truck, Package, Award } from 'lucide-react';
 import ComplexityIndicator from './ui/complexityIndicator';
+import { useIntegrations } from '../context/integrationsData';
+
+
 
 const integrationsByIndustry = {
   ecommerce: [
@@ -129,14 +132,25 @@ const costColors = {
 
 export function IntegrationListByCategory({ industryId, category }: { industryId: string, category: string }) {
 
-  const integrations = integrationsByIndustry[industryId as keyof typeof integrationsByIndustry] || [];
+  const { integrations, addIntegration } = useIntegrations();
 
-  const filteredIntegrations = integrations.filter((integration) => integration.category === category);
+  const integrations_old = integrationsByIndustry[industryId as keyof typeof integrationsByIndustry] || [];
+
+  const filteredIntegrations = integrations_old.filter((integration) => integration.category === category);
 
   if (filteredIntegrations.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">No se encontraron integraciones que coincidan con los filtros.</p>
+        <p className="text-gray-500">No se encontraron integraciones que coincidan con los filtros.
+        <div className="mt-4">
+          here you have another options
+          </div>
+          <div>
+            {integrations.map((integration) => (
+              <div key={integration.id}>{integration.name}</div>
+            ))}
+          </div>
+        </p>
       </div>
     );
   }

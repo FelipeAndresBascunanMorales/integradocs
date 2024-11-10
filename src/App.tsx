@@ -1,5 +1,6 @@
 
 import { Layout } from './components/Layout'
+import { IntegrationsProvider } from './context/integrationsData'
 import { SearchProvider } from './context/SearchContext'
 import Category from './pages/[category]'
 import { Home } from './pages/Home'
@@ -12,17 +13,19 @@ function App() {
   
   return (
     <Router>
-      <SearchProvider>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/industry/:id" element={<Industry />} />
-            <Route path="/integration/:id" element={<Integration />} />
-            <Route path={`/${hart}`} element={<Home />} />
-            <Route path={`/:category`} element={<Category />} />
-          </Routes>
-        </Layout>
-      </SearchProvider>
+      <IntegrationsProvider>
+        <SearchProvider>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/industry/:id" element={<Industry />} />
+              <Route path="/integration/:id" element={<Integration />} />
+              <Route path={`/${hart}`} element={<Home />} />
+              <Route path={`/:category`} element={<Category />} />
+            </Routes>
+          </Layout>
+        </SearchProvider>
+      </IntegrationsProvider>
     </Router>
   )
 }

@@ -1,0 +1,271 @@
+[
+  {
+    "icon": "https://www.pharmacysoftware.com/icon.png",
+    "name": "Pharmacy Management System",
+    "tags": [
+      "inventory management",
+      "pharmacy",
+      "healthcare",
+      "medicine"
+    ],
+    "kindOf": "Service",
+    "pricing": [
+      "Subscription-based",
+      "One-time license fee"
+    ],
+    "category": "Pharmacy Management",
+    "industry": "Healthcare",
+    "complexity": "Moderate",
+    "requireDev": false,
+    "description": "A specialized software for managing products, inventory, and medication in pharmacies.",
+    "recommended": true,
+    "complexityLevel": 40,
+    "$id": "672c45200010acc07323",
+    "$permissions": [],
+    "$createdAt": "2024-11-07T04:42:09.940+00:00",
+    "$updatedAt": "2024-11-07T04:42:09.940+00:00",
+    "$databaseId": "672a25f1001d5e886426",
+    "$collectionId": "672a2605003de36effb1"
+  },
+  {
+    "icon": "https://www.pharmacysoftware.com/images/logo.png",
+    "name": "Pharmacy Manager",
+    "tags": [
+      "pharmacy",
+      "inventory management",
+      "healthcare"
+    ],
+    "kindOf": "Service",
+    "pricing": [
+      "Starting from $99 per month",
+      "Custom pricing for larger pharmacies"
+    ],
+    "category": "Pharmacy Management",
+    "industry": "Healthcare",
+    "complexity": "High",
+    "requireDev": false,
+    "description": "A comprehensive pharmacy management software that helps track inventory, manage medications, and streamline operations.",
+    "recommended": true,
+    "complexityLevel": 70,
+    "$id": "672c46af001471b1b7b3",
+    "$permissions": [],
+    "$createdAt": "2024-11-07T04:48:49.023+00:00",
+    "$updatedAt": "2024-11-07T04:48:49.023+00:00",
+    "$databaseId": "672a25f1001d5e886426",
+    "$collectionId": "672a2605003de36effb1"
+  },
+  {
+    "icon": "https://www.vendhq.com/wp-content/uploads/2015/01/icon-vend-color.png",
+    "name": "Vend Pharmacy POS",
+    "tags": [
+      "pharmacy management",
+      "inventory",
+      "point of sale"
+    ],
+    "kindOf": "Service",
+    "pricing": [
+      "Starts at $99/month"
+    ],
+    "category": "Retail Management Software",
+    "industry": "Healthcare and Retail",
+    "complexity": "Moderate",
+    "requireDev": false,
+    "description": "Vend provides a comprehensive point-of-sale system tailored for pharmacies, enabling inventory management, sales tracking, and reporting to efficiently manage products and medicine.",
+    "recommended": true,
+    "complexityLevel": 50,
+    "$id": "672c4783002ef65f51c5",
+    "$permissions": [],
+    "$createdAt": "2024-11-07T04:52:21.454+00:00",
+    "$updatedAt": "2024-11-07T04:52:21.454+00:00",
+    "$databaseId": "672a25f1001d5e886426",
+    "$collectionId": "672a2605003de36effb1"
+  },
+  {
+    "icon": "https://cdn-icons-png.flaticon.com/512/3522/3522273.png",
+    "name": "Strava",
+    "tags": [
+      "cycling",
+      "fitness",
+      "tracking"
+    ],
+    "kindOf": "Service",
+    "pricing": [
+      "Free",
+      "Premium subscription available"
+    ],
+    "category": "Fitness & Health",
+    "industry": "Sports",
+    "complexity": "Low",
+    "requireDev": false,
+    "description": "Strava is a fitness tracking application for cyclists and runners, allowing them to track their rides and runs via GPS and connect with a global community.",
+    "recommended": true,
+    "complexityLevel": 20,
+    "$id": "672c4b640038565c917c",
+    "$permissions": [],
+    "$createdAt": "2024-11-07T05:08:54.593+00:00",
+    "$updatedAt": "2024-11-07T05:08:54.593+00:00",
+    "$databaseId": "672a25f1001d5e886426",
+    "$collectionId": "672a2605003de36effb1"
+  },
+  {
+    "icon": "https://example.com/electrician-icon.png",
+    "name": "Jobber",
+    "tags": [
+      "Field Service Management",
+      "Electrician",
+      "Business Automation"
+    ],
+    "kindOf": "Service",
+    "pricing": [
+      "Free Trial",
+      "Lite Plan $29/month",
+      "Core Plan $129/month",
+      "Connect Plan $249/month"
+    ],
+    "category": "Field Service Management",
+    "industry": "Electricians",
+    "complexity": "Medium",
+    "requireDev": false,
+    "description": "Jobber is a field service management software tailored for electricians, helping manage jobs, prepare quotes, send invoices, and even schedule jobs efficiently while automating day-to-day operations.",
+    "recommended": true,
+    "complexityLevel": 45,
+    "$id": "672d50510005ffb4674b",
+    "$permissions": [],
+    "$createdAt": "2024-11-07T23:42:11.156+00:00",
+    "$updatedAt": "2024-11-07T23:42:11.156+00:00",
+    "$databaseId": "672a25f1001d5e886426",
+    "$collectionId": "672a2605003de36effb1"
+  },
+  {
+    "icon": "https://www.zendesk.com/favicon.ico",
+    "name": "Zendesk",
+    "tags": [
+      "customer support",
+      "ticketing",
+      "help desk"
+    ],
+    "kindOf": "Service",
+    "pricing": [
+      "Free Trial",
+      "Team: $49/month",
+      "Growth: $79/month",
+      "Professional: $99/month"
+    ],
+    "category": "Customer Support",
+    "industry": "Veterinary",
+    "complexity": "Moderate",
+    "requireDev": false,
+    "description": "Zendesk is a customer service platform that provides ticketing, self-service, and customer support features, suitable for veterinary clinics to manage client inquiries and appointments.",
+    "recommended": true,
+    "complexityLevel": 40,
+    "integrationDetails": {
+      "fullDescription": "Zendesk is a comprehensive customer service platform that allows veterinary clinics to manage client inquiries, schedule appointments, and provide support through a ticketing system. It offers features like live chat, email integration, and a knowledge base to streamline communication with pet owners.",
+      "pros": [
+        "Easy to set up and use",
+        "Scalable with business growth",
+        "Integrates with various platforms"
+      ],
+      "cons": [
+        "Can be expensive for small practices",
+        "May require customization for specific needs"
+      ],
+      "documentations": "https://support.zendesk.com/hc/en-us",
+      "useCases": [
+        "Managing client inquiries",
+        "Scheduling appointments",
+        "Providing support through multiple channels"
+      ]
+    }
+  },
+  {
+    "icon": "https://www.petdesk.com/wp-content/uploads/2020/06/petdesk-logo.png",
+    "name": "PetDesk",
+    "tags": [
+      "veterinary",
+      "appointment scheduling",
+      "client communication"
+    ],
+    "kindOf": "Service",
+    "pricing": [
+      "Free",
+      "Paid plans available"
+    ],
+    "category": "Veterinary Management",
+    "industry": "Veterinary",
+    "complexity": "Low",
+    "requireDev": false,
+    "description": "PetDesk is a client communication and engagement platform designed for veterinary practices to manage appointments, reminders, and client interactions efficiently.",
+    "recommended": true,
+    "complexityLevel": 20,
+    "integrationDetails": {
+      "fullDescription": "PetDesk provides a comprehensive platform for veterinary practices to streamline client communication, manage appointments, and send reminders. It helps in improving client engagement and operational efficiency.",
+      "pros": [
+        "Easy to use interface",
+        "Improves client communication",
+        "Automates reminders and confirmations"
+      ],
+      "cons": [
+        "Limited customization options in the free version"
+      ],
+      "documentations": "https://www.petdesk.com/resources/",
+      "useCases": [
+        "Appointment scheduling",
+        "Client reminders",
+        "Pet health records management"
+      ]
+    }
+  },
+  {
+    "icon": "https://www.canva.com/favicon.ico",
+    "name": "Canva",
+    "tags": [
+      "design",
+      "graphics",
+      "social media"
+    ],
+    "kindOf": "NoCode",
+    "pricing": [
+      "Free",
+      "Pro",
+      "Enterprise"
+    ],
+    "category": "Design",
+    "industry": "Creative",
+    "complexity": "Low",
+    "requireDev": false,
+    "description": "Canva is a graphic design platform used to create social media graphics, presentations, posters, documents and other visual content. It is a user-friendly tool that allows anyone to create beautiful designs without needing advanced graphic design skills.",
+    "recommended": true,
+    "complexityLevel": 10,
+    "integrationDetails": {
+      "fullDescription": "Canva is a versatile design tool that allows users to create a wide range of visual content. With its drag-and-drop interface and a vast library of templates, images, and fonts, users can easily design professional-looking graphics for personal or business use. Canva is particularly popular for creating social media posts, marketing materials, and presentations.",
+      "pros": [
+        "User-friendly interface",
+        "Wide range of templates",
+        "Free version available",
+        "Collaboration features"
+      ],
+      "cons": [
+        "Limited features in free version",
+        "Some advanced features require Pro subscription"
+      ],
+      "documentations": "https://www.canva.com/help/",
+      "useCases": [
+        "Creating social media posts",
+        "Designing marketing materials",
+        "Developing presentations",
+        "Crafting invitations and cards"
+      ],
+      "supportedPlatforms": [
+        "Web",
+        "iOS",
+        "Android"
+      ],
+      "supportedTechnologies": [
+        "HTML5",
+        "CSS3",
+        "JavaScript"
+      ]
+    }
+  }
+
+]

@@ -1,4 +1,5 @@
 appwrite.json
+.env
 
 # Logs
 logs
