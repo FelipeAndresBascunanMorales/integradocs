@@ -2,45 +2,46 @@ import { database, ID } from './appwriteProvider.js';
 import { askForOneIntegration, askForManyIntegrations } from './chatGPT.js';
 import { throwIfMissing } from './utils.js';
 
-export default async ({ req, log, res }) => {
+export default async ({ req, log, res, error }) => {
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
+  let htmlResponse = '<html><body><div>integration not found</div></body></html>'
   if (req.method === 'GET') {
     try {
       const integration = await getIntegration(req, log);
-      log("chatGptResponse", integration);
       const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
-      log("integrations", integrationDocument);
-      log("integrationsDetails", integrationsDetailsDocument);
+      htmlResponse = `<html><body><h1>Integration successfully retrieved and stored.</h1><div>${integrationDocument}</div><div>${integrationsDetailsDocument}</div></body></html>`
+
     }
     catch (err) {
       return res.json({ ok: false, error: err }, 400);
     }
-    return res.text("hi mom!", 200, {
+    return res.text(
+      htmlResponse
+      , 200, {
       'Content-Type': 'text/html; charset=utf-8',
     });
   }
 
   if (req.method === 'POST') {
     try {
-      // take the body
-      const integrationRequirement = req.body.integrations;
-      const integrationsList = await askForManyIntegrations(integrationRequirement);
-      // something like, generate a json object for each of this integrations
-      // and then write to the database
+      const integrationRequirement = JSON.stringify(req.body.integrations);
+      const integrationsList = await askForManyIntegrations(integrationRequirement, log, error);
 
-      integrationsList.forEach(async integration => {
+      log("integrationsList", integrationsList);
+      await Promise.all(integrationsList.map(async integration => {
         const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
         log("integrations", integrationDocument);
         log("integrationsDetails", integrationsDetailsDocument);
-      });
+      }));
     }
     catch (err) {
+      error("something wroooong!", err);
       return res.json({ ok: false, error: err }, 400);
     }
 
     return res.json({ ok: false, error: 'Failed to query model.' }, 500);
   };
-  return res.json({ ok: false, error: 'Method not allowed' }, 405);
+  return res.json({ ok: true }, 201);
 }
 
 async function getIntegration(req, log) {

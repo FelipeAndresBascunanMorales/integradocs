@@ -14,14 +14,17 @@ async function askForOneIntegration(kindOfIntegration = 'i need to manage the pr
   }
 }
 
-async function askForManyIntegrations(integrationRequirement) {
+async function askForManyIntegrations(integrationRequirement, log, error) {
   try {
     const systemInstruction = "You are an integrations specialist, we need to populate our database with accurate data, because of that, you must return acurate details for each integration in a json object format using real info from the web acording to the list of integrations the user require"
-    const requirement = "Generate a list of integrations for each integration requiered here: " + integrationRequirement;
+    const requirement = `Generate a list of integrations for each integration requiered here: " ${integrationRequirement}`
+    
     const response = await apiInteraction(systemInstruction, requirement, integrationListSchema);
     const jsonResponse = response.choices[0].message.content;
-    return JSON.parse(jsonResponse);
+    log("***jsonResponse: ", jsonResponse);
+    return JSON.parse(jsonResponse)?.integrations;
     }catch (err) {
+      error("*** error from chatgpt: " + err);
       throw new Error("Error in conversation: " + err);
     }
 }
