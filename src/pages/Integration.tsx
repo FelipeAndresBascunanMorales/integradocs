@@ -1,5 +1,6 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { CreditCard, Calendar, BarChart, Truck, Package } from 'lucide-react';
+import { Integration as IntegrationType} from '../context/integrationsData';
 
 const integrationData = {
   transbank: {
@@ -113,8 +114,9 @@ const integrationData = {
 };
 
 export function Integration() {
-  const { id } = useParams<{ id: string }>();
-  const integration = integrationData[id as keyof typeof integrationData];
+
+  const location = useLocation();
+  const integration = location?.state as IntegrationType;
 
   if (!integration) {
     return (
@@ -125,7 +127,7 @@ export function Integration() {
     );
   }
 
-  const Icon = integration.icon;
+  // const Icon = integration.icon;
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -133,7 +135,7 @@ export function Integration() {
       <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-indigo-100 rounded-lg">
-            <Icon className="h-8 w-8 text-indigo-600" />
+            {/* <Icon className="h-8 w-8 text-indigo-600" /> */}
           </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">{integration.name}</h1>
@@ -165,9 +167,9 @@ export function Integration() {
       <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Requisitos</h2>
         <ul className="list-disc list-inside space-y-2">
-          {integration.requirements.map((requirement, index) => (
+          {/* {integration.requirements.map((requirement, index) => (
             <li key={index} className="text-gray-600">{requirement}</li>
-          ))}
+          ))} */}
         </ul>
       </div>
 
@@ -175,14 +177,14 @@ export function Integration() {
       <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Pasos de Integración</h2>
         <div className="space-y-4">
-          {integration.steps.map((step, index) => (
+          {/* {integration.steps.map((step, index) => (
             <div key={index} className="flex items-start gap-4">
               <div className="flex-shrink-0 w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-indigo-600">{index + 1}</span>
               </div>
               <p className="text-gray-600 pt-1">{step}</p>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
 

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Award } from 'lucide-react';
 import ComplexityIndicator from './ui/complexityIndicator';
 import { Integration } from '../context/integrationsData';
+import { parameterize } from '../lib/utils';
 
 const costColors = {
   Gratis: 'text-green-600',
@@ -26,7 +27,8 @@ export function IntegrationListByCategory({integrations} : {integrations: Integr
       {integrations.map((integration) => (
         <Link
           key={integration.$id}
-          to={`/integration/${integration.$id}`}
+          to={`/integration/${parameterize(integration.name)}`}
+          state= { integration }
           className="block group px-12"
         >
           <div className="p-6 bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md hover:border-indigo-200">
