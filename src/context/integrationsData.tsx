@@ -1,37 +1,18 @@
 import React, { createContext, useContext, useState } from 'react';
-import { latestIntegrations } from './appwriteProvider.js'
+import { latestIntegrations, Document } from './appwriteProvider.js'
 
-interface Integration {
-  id: number;
-  name: string;
-  description: string;
-  complexityLevel?: number;
-  requireDev?: boolean;
-  kindOf?: 'API' | 'LowCode' | 'NoCode' | 'Service' | 'Idontknow';
-  complexity?: string;
-  recommended?: boolean;
-  tags?: string[];
-  pricing?: string[];
-  category?: string;
-  industry?: string;
-  icon?: string;
-  integrationDetails?: 
-  {
-    fullDescription: string;
-    pros: string[];
-    cons: string[];
-    documentations: string;
-    useCases: string[];
-  };
+export type Integration = Document
+
+interface IntegrationsByIndustry {
+  [key: string]: Integration[];
 }
 
 interface IntegrationsContextType {
   integrations: Integration[];
   addIntegration: (integration: Integration) => void;
+  integrationsByIndustry: IntegrationsByIndustry;
+  addIntegrationByIndustry: (industry: string, integration: Integration[]) => void;
 }
-
-
-
 
 const initialIntegrations: Integration[] = latestIntegrations;
 
@@ -39,13 +20,18 @@ const IntegrationsContext = createContext<IntegrationsContextType | undefined>(u
 
 export const IntegrationsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [integrations, setIntegrations] = useState<Integration[]>(initialIntegrations);
+  const [integrationsByIndustry, setIntegrationsByIndustry] = useState<IntegrationsByIndustry>({});
 
   const addIntegration = (integration: Integration) => {
     setIntegrations([...integrations, integration]);
   };
 
+  const addIntegrationByIndustry = (industry: string, integration: Integration[]) => {
+    setIntegrationsByIndustry({ ...integrationsByIndustry, [industry]: integration });
+  };
+
   return (
-    <IntegrationsContext.Provider value={{ integrations, addIntegration }}>
+    <IntegrationsContext.Provider value={{ integrations, addIntegration, integrationsByIndustry, addIntegrationByIndustry }}>
       {children}
     </IntegrationsContext.Provider>
   );
@@ -53,7 +39,6 @@ export const IntegrationsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
 export const useIntegrations = (): IntegrationsContextType => {
   const context = useContext(IntegrationsContext);
-  console.log("here: ", context)
   if (!context) {
     throw new Error('useIntegrations must be used within an IntegrationsProvider');
   }

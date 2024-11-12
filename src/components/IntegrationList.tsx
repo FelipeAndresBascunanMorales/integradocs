@@ -1,70 +1,11 @@
 import { Link } from 'react-router-dom';
-import { CreditCard, Calendar, BarChart, Truck, Package } from 'lucide-react';
 import { useSearch } from '../context/SearchContext';
 import ComplexityIndicator from './ui/complexityIndicator';
-
-
-const integrationsByIndustry = {
-  ecommerce: [
-    {
-      id: 'transbank',
-      name: 'Transbank',
-      description: 'Procesa pagos con tarjetas de crédito y débito',
-      icon: CreditCard,
-      category: 'Pagos',
-      complexity: 'Media',
-      cost: 'Pago',
-      developerRequired: true,
-    },
-    {
-      id: 'chilexpress',
-      name: 'Chilexpress',
-      description: 'Integración con servicios de envío',
-      icon: Truck,
-      category: 'Envíos',
-      complexity: 'Media',
-      cost: 'Pago',
-      developerRequired: true,
-    },
-    {
-      id: 'bsale',
-      name: 'Bsale',
-      description: 'Gestión de inventario y facturación',
-      icon: Package,
-      category: 'Inventario',
-      complexity: 'Alta',
-      cost: 'Pago',
-      developerRequired: true,
-    },
-  ],
-  healthcare: [
-    {
-      id: 'agenda-pro',
-      name: 'Agenda Pro',
-      description: 'Sistema de agendamiento para profesionales',
-      icon: Calendar,
-      category: 'Agendamiento',
-      complexity: 'Baja',
-      cost: 'Freemium',
-      developerRequired: false,
-    },
-  ],
-  marketing: [
-    {
-      id: 'google-analytics',
-      name: 'Google Analytics',
-      description: 'Análisis de tráfico y comportamiento',
-      icon: BarChart,
-      category: 'Analytics',
-      complexity: 'Baja',
-      cost: 'Gratis',
-      developerRequired: false,
-    },
-  ],
-};
+import { useIntegrations } from '../context/integrationsData';
 
 export function IntegrationList({ industryId }: { industryId: string }) {
   const { query, filters } = useSearch();
+  const { integrationsByIndustry } = useIntegrations();
   const integrations = integrationsByIndustry[industryId as keyof typeof integrationsByIndustry] || [];
 
   const filteredIntegrations = integrations.filter((integration) => {
@@ -85,24 +26,24 @@ export function IntegrationList({ industryId }: { industryId: string }) {
 
   if (filteredIntegrations.length === 0) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-12 h-96">
         <p className="text-gray-500">No se encontraron integraciones que coincidan con los filtros.</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      {filteredIntegrations.map((integration) => (
+    <div className="space-y-4 overflow-auto h-96">
+      {filteredIntegrations.slice(0, 3).map((integration) => (
         <Link
-          key={integration.id}
+          key={integration.$id}
           to={`/integration/${integration.id}`}
           className="block group"
         >
           <div className="p-6 bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md hover:border-indigo-200">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <integration.icon className="h-6 w-6 text-indigo-600" />
+                {/* <integration.icon className="h-6 w-6 text-indigo-600" /> */}
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-gray-900 group-hover:text-indigo-600">
                     {integration.name}

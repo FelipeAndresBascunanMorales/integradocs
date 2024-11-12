@@ -1,108 +1,60 @@
-import { ReactNode } from "react";
-import { IntegrationList } from "./IntegrationList";
 import { IntegrationListByCategory } from "./IntegrationListByCategory";
-import { Calendar, UserCheck, DollarSign, BarChart, Mail, Share2, Layers, Package, CreditCard, Truck } from "lucide-react";
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion"
+} from "./ui/Accordion"
+import { useIntegrations } from "../context/integrationsData";
+import { Document } from "../context/appwriteProvider";
 
 
-const integrationsByCategory = {
-  appointments: {
-    title: 'Agendamiento',
-    description: 'Herramientas para gestionar citas y horarios',
-    icon: Calendar,
-  },
-  patientRecords: {
-    title: 'Historial de Pacientes',
-    description: 'Sistemas para almacenar información de pacientes',
-    icon: UserCheck,
-  },
-  billing: {
-    title: 'Facturación',
-    description: 'Sistemas para gestionar pagos y facturas',
-    icon: DollarSign,
-  },
-  analytics: {
-    title: 'Analytics',
-    description: 'Herramientas para analizar datos de marketing',
-    icon: BarChart,
-  },
-  emailMarketing: {
-    title: 'Email Marketing',
-    description: 'Plataformas para enviar correos masivos',
-    icon: Mail,
-  },
-  socialMedia: {
-    title: 'Social Media',
-    description: 'Herramientas para gestionar redes sociales',
-    icon: Share2,
-  },
-  unknown: {
-    title: 'Otras integraciones',
-    description: 'Explora otras integraciones disponibles',
-    icon: Layers,
-  },
-  stock: {
-    title: 'Inventario',
-    description: 'Sistemas para gestionar inventario y stock',
-    icon: Package,
-  },
-  payments: {
-    title: 'Pagos',
-    description: 'Procesadores de pagos y pasarelas de pago',
-    icon: CreditCard,
-  },
-  shipping: {
-    title: 'Envíos',
-    description: 'Integraciones con servicios de envío y logística',
-    icon: Truck,
-  },
-}
-export default function InnerCategory({ categories, industryId}: { categories: string[] | undefined, industryId : string }) {
+export default function InnerCategory({ industryId }: { industryId: string }) {
 
-  const filteredIntegrations = Object.entries(integrationsByCategory)
-  .filter(([industry]) => categories?.includes(industry))
-  .flatMap(([_, integrations]) => integrations);
+  const { integrationsByIndustry } = useIntegrations();
+  const integrations = integrationsByIndustry[industryId]
+  if (!integrations) {
+    return null;
+  }
+
+  const integrationsSortedByCategory = integrations.reduce((acc: { [key: string]: Document[] }, integration) => {
+    const category = integration.category.toLowerCase();
+    if (acc[category]) {
+      acc[category].push(integration);
+    } else {
+      acc[category] = [integration];
+    }
+    return acc;
+  }, {});
 
 return (
-  <div className="bg-gray-50">
-      <div className=" ">
-        <Accordion type="multiple" defaultValue={filteredIntegrations.map((cat) => cat.title)}>
-          {filteredIntegrations.map((category) => (
-            <AccordionItem value={category.title}>
-            <AccordionTrigger>
-              <div className="flex justify-start">
-              <category.icon className="h-8 w-8 m-4 text-indigo-600" />
-              <div>
-                <h2 className="text-xl font-bold text-gray-900">{category.title}</h2>
-                <p className="mt-2 text-gray-600">{category.description}</p>
-              </div>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent>
-              <IntegrationListByCategory category={category.title} industryId={industryId} />
-            </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>  
-{/* 
-        <div className="flex justify-start">
-            <category.icon className="h-8 w-8 m-4 text-indigo-600" />
-          <div>
-            <h2 className="text-xl font-bold text-gray-900">{category.title}</h2>
-            <p className="mt-2 text-gray-600">{category.description}</p>
-          </div>
-        </div>
-        <div key={category.title} className="p-4">
-          <IntegrationListByCategory category={category.title} industryId={industryId} />
-        </div>  
-      </div> */}
+  <>
+{
+  (integrationsSortedByCategory && (
+    <div className="bg-gray-50">
+      <Accordion type="multiple" defaultValue={["hey this is the default value"]}>
+        {Object.entries(integrationsSortedByCategory).map(([category, integrations]) => (
+          <AccordionItem value={category} key={category}>
 
-  </div>
+            <AccordionTrigger>
+            <div className="flex justify-start">
+              {/* <category.icon className="h-8 w-8 m-4 text-indigo-600" /> */}
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">{category}</h2>
+                {/* <p className="mt-2 text-gray-600">{category.description}</p> */}
+              </div>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent>
+            <IntegrationListByCategory integrations={integrations} />
+          </AccordionContent>
+
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </div> 
+  ))
+}
+  </>
 );}

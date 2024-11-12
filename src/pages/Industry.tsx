@@ -3,9 +3,21 @@ import { SearchBar } from '../components/SearchBar';
 import { IntegrationList } from '../components/IntegrationList';
 import { FilterPanel } from '../components/FilterPanel';
 import InnerCategory from '../components/InnerCategory';
+import { useEffect } from 'react';
+import { getIntegrationsByIndustry } from '../context/appwriteProvider.js';
+import { useIntegrations } from '../context/integrationsData.js';
 
 export function Industry() {
   const { id = 'unknown' } = useParams<{ id: string }>();
+  const { addIntegrationByIndustry } = useIntegrations()
+
+  useEffect(() => {
+    const fetchIntegrations = async () => {
+      const newIntegrations = await getIntegrationsByIndustry(id);
+      addIntegrationByIndustry(id, newIntegrations.documents);
+    };
+    fetchIntegrations();
+  }, [id]);
 
   const industryData = {
     ecommerce: {
@@ -33,24 +45,6 @@ export function Industry() {
     innerCategory: ['unknown'],
   };
 
-  const itemsData = [
-      {
-        title: 'E-commerce',
-        content: 'Integraciones para tiendas online',
-      },
-      {
-        title: 'Salud',
-        content: 'Soluciones para el sector salud',
-      },
-      {
-        title: 'Marketing',
-        content: 'Herramientas de marketing digital',
-      },
-      {
-        title: 'Unknown industry',
-        content: 'Try selecting an industry from the sidebar',
-      },
-  ];
 
   return (
     <div className="space-y-8">
@@ -69,7 +63,7 @@ export function Industry() {
         </div>
       </div>
       <div>
-        <InnerCategory categories={industryData.innerCategory} industryId={id} >
+        <InnerCategory industryId={id} >
         </InnerCategory>
       </div>
     </div>
