@@ -1,117 +1,117 @@
 import { Link, useLocation } from 'react-router-dom';
-import { CreditCard, Calendar, BarChart, Truck, Package } from 'lucide-react';
+// import { CreditCard, Calendar, BarChart, Truck, Package } from 'lucide-react';
 import { Integration as IntegrationType} from '../context/integrationsData';
 
-const integrationData = {
-  transbank: {
-    name: 'Transbank',
-    description: 'Procesa pagos con tarjetas de crédito y débito en Chile',
-    icon: CreditCard,
-    category: 'Pagos',
-    complexity: 'Media',
-    cost: 'Pago',
-    developerRequired: true,
-    documentation: 'https://www.transbankdevelopers.cl/',
-    steps: [
-      'Crear una cuenta de desarrollador en Transbank',
-      'Obtener las credenciales de integración',
-      'Implementar el SDK en tu aplicación',
-      'Realizar pruebas en ambiente de desarrollo',
-      'Solicitar paso a producción'
-    ],
-    requirements: [
-      'Sitio web con certificado SSL',
-      'Conocimientos de programación',
-      'Contrato con Transbank'
-    ]
-  },
-  'agenda-pro': {
-    name: 'Agenda Pro',
-    description: 'Sistema de agendamiento para profesionales de la salud',
-    icon: Calendar,
-    category: 'Agendamiento',
-    complexity: 'Baja',
-    cost: 'Freemium',
-    developerRequired: false,
-    documentation: 'https://agendapro.com/developers',
-    steps: [
-      'Registrarse en Agenda Pro',
-      'Configurar el calendario y servicios',
-      'Integrar el widget de reservas',
-      'Personalizar la apariencia',
-      'Activar notificaciones'
-    ],
-    requirements: [
-      'Sitio web',
-      'Plan activo de Agenda Pro'
-    ]
-  },
-  'google-analytics': {
-    name: 'Google Analytics',
-    description: 'Análisis de tráfico y comportamiento de usuarios',
-    icon: BarChart,
-    category: 'Analytics',
-    complexity: 'Baja',
-    cost: 'Gratis',
-    developerRequired: false,
-    documentation: 'https://developers.google.com/analytics',
-    steps: [
-      'Crear una cuenta de Google Analytics',
-      'Configurar una propiedad web',
-      'Agregar el código de seguimiento',
-      'Configurar objetivos y eventos',
-      'Verificar la recopilación de datos'
-    ],
-    requirements: [
-      'Cuenta de Google',
-      'Sitio web'
-    ]
-  },
-  chilexpress: {
-    name: 'Chilexpress',
-    description: 'Integración con servicios de envío en Chile',
-    icon: Truck,
-    category: 'Envíos',
-    complexity: 'Media',
-    cost: 'Pago',
-    developerRequired: true,
-    documentation: 'https://developers.chilexpress.cl',
-    steps: [
-      'Solicitar credenciales de API',
-      'Implementar el SDK',
-      'Configurar cotización de envíos',
-      'Integrar seguimiento de pedidos',
-      'Realizar pruebas'
-    ],
-    requirements: [
-      'Contrato con Chilexpress',
-      'Conocimientos de programación',
-      'Sitio web o aplicación'
-    ]
-  },
-  bsale: {
-    name: 'Bsale',
-    description: 'Sistema de gestión de inventario y facturación',
-    icon: Package,
-    category: 'Inventario',
-    complexity: 'Alta',
-    cost: 'Pago',
-    developerRequired: true,
-    documentation: 'https://bsale.cl/developers',
-    steps: [
-      'Crear cuenta en Bsale',
-      'Solicitar acceso a la API',
-      'Implementar sincronización de productos',
-      'Configurar facturación electrónica',
-      'Realizar pruebas de integración'
-    ],
-    requirements: [
-      'Plan activo de Bsale',
-      'Conocimientos de programación',
-      'Sistema de comercio electrónico'
-    ]
-  }
-};
+// const integrationData = {
+//   transbank: {
+//     name: 'Transbank',
+//     description: 'Procesa pagos con tarjetas de crédito y débito en Chile',
+//     icon: CreditCard,
+//     category: 'Pagos',
+//     complexity: 'Media',
+//     cost: 'Pago',
+//     developerRequired: true,
+//     documentation: 'https://www.transbankdevelopers.cl/',
+//     steps: [
+//       'Crear una cuenta de desarrollador en Transbank',
+//       'Obtener las credenciales de integración',
+//       'Implementar el SDK en tu aplicación',
+//       'Realizar pruebas en ambiente de desarrollo',
+//       'Solicitar paso a producción'
+//     ],
+//     requirements: [
+//       'Sitio web con certificado SSL',
+//       'Conocimientos de programación',
+//       'Contrato con Transbank'
+//     ]
+//   },
+//   'agenda-pro': {
+//     name: 'Agenda Pro',
+//     description: 'Sistema de agendamiento para profesionales de la salud',
+//     icon: Calendar,
+//     category: 'Agendamiento',
+//     complexity: 'Baja',
+//     cost: 'Freemium',
+//     developerRequired: false,
+//     documentation: 'https://agendapro.com/developers',
+//     steps: [
+//       'Registrarse en Agenda Pro',
+//       'Configurar el calendario y servicios',
+//       'Integrar el widget de reservas',
+//       'Personalizar la apariencia',
+//       'Activar notificaciones'
+//     ],
+//     requirements: [
+//       'Sitio web',
+//       'Plan activo de Agenda Pro'
+//     ]
+//   },
+//   'google-analytics': {
+//     name: 'Google Analytics',
+//     description: 'Análisis de tráfico y comportamiento de usuarios',
+//     icon: BarChart,
+//     category: 'Analytics',
+//     complexity: 'Baja',
+//     cost: 'Gratis',
+//     developerRequired: false,
+//     documentation: 'https://developers.google.com/analytics',
+//     steps: [
+//       'Crear una cuenta de Google Analytics',
+//       'Configurar una propiedad web',
+//       'Agregar el código de seguimiento',
+//       'Configurar objetivos y eventos',
+//       'Verificar la recopilación de datos'
+//     ],
+//     requirements: [
+//       'Cuenta de Google',
+//       'Sitio web'
+//     ]
+//   },
+//   chilexpress: {
+//     name: 'Chilexpress',
+//     description: 'Integración con servicios de envío en Chile',
+//     icon: Truck,
+//     category: 'Envíos',
+//     complexity: 'Media',
+//     cost: 'Pago',
+//     developerRequired: true,
+//     documentation: 'https://developers.chilexpress.cl',
+//     steps: [
+//       'Solicitar credenciales de API',
+//       'Implementar el SDK',
+//       'Configurar cotización de envíos',
+//       'Integrar seguimiento de pedidos',
+//       'Realizar pruebas'
+//     ],
+//     requirements: [
+//       'Contrato con Chilexpress',
+//       'Conocimientos de programación',
+//       'Sitio web o aplicación'
+//     ]
+//   },
+//   bsale: {
+//     name: 'Bsale',
+//     description: 'Sistema de gestión de inventario y facturación',
+//     icon: Package,
+//     category: 'Inventario',
+//     complexity: 'Alta',
+//     cost: 'Pago',
+//     developerRequired: true,
+//     documentation: 'https://bsale.cl/developers',
+//     steps: [
+//       'Crear cuenta en Bsale',
+//       'Solicitar acceso a la API',
+//       'Implementar sincronización de productos',
+//       'Configurar facturación electrónica',
+//       'Realizar pruebas de integración'
+//     ],
+//     requirements: [
+//       'Plan activo de Bsale',
+//       'Conocimientos de programación',
+//       'Sistema de comercio electrónico'
+//     ]
+//   }
+// };
 
 export function Integration() {
 

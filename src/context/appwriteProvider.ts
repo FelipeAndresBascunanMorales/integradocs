@@ -9,11 +9,14 @@ const database = new Databases(client);
 export type DocumentList = Models.DocumentList<Document>;
 export type Document = Models.Document;
 
-const response = await database.listDocuments(
-  import.meta.env.VITE_DATABASE_ID_VEELOTU,
-  import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
-  [Query.orderDesc("$createdAt"), Query.limit(30)]
-);
+export async function getIntegrations() {
+  const response = await database.listDocuments(
+    import.meta.env.VITE_DATABASE_ID_VEELOTU,
+    import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
+    [Query.orderDesc("$createdAt")]
+  );
+  return response
+}
 
 export async function getIntegrationsByCategory(category: string) {
   const response = await database.listDocuments(
@@ -38,6 +41,7 @@ export async function getIntegrationsByIndustry(industry: string) {
   return response
 }
 
+// now is being used the integration model from the appwrite database
 export interface Integration {
   id: number;
   name: string;
@@ -62,5 +66,19 @@ export interface Integration {
   };
 }
 
+const response = await database.listDocuments(
+  import.meta.env.VITE_DATABASE_ID_VEELOTU,
+  import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
+  [Query.orderDesc("$createdAt"), Query.limit(30)]
+);
+
 export const latestIntegrations = response.documents
+
+export function appwriteProvider() {
+  return {
+    getIntegrations,
+    getIntegrationsByCategory,
+    getIntegrationsByIndustry
+  }
+}
 

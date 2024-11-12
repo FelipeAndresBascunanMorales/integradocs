@@ -7,6 +7,7 @@ const navigation = [
   { name: 'Salud', href: '/industry/healthcare' },
   { name: 'Marketing', href: '/industry/marketing' },
   { name: 'Especialistas', href: '/contactPage' },
+  { name: 'Admin', href: '/admin' },
 ];
 
 export function Navigation({ mobile }: { mobile?: boolean }) {
