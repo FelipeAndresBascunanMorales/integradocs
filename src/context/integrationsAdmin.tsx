@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import { Integration } from './integrationsData';
-import { appwriteProvider } from './appwriteProvider.js';
+import appwriteProvider from './appwriteProvider.js';
 
 
 export function useIntegrations() {

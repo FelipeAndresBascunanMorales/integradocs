@@ -18,7 +18,7 @@ export async function getIntegrations() {
   return response
 }
 
-export async function getIntegrationsByCategory(category: string) {
+async function getIntegrationsByCategory(category: string) {
   const response = await database.listDocuments(
     import.meta.env.VITE_DATABASE_ID_VEELOTU,
     import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
@@ -29,7 +29,7 @@ export async function getIntegrationsByCategory(category: string) {
   return response
 }
 
-export async function getIntegrationsByIndustry(industry: string) {
+async function getIntegrationsByIndustry(industry: string) {
   console.log("WE ARE GETTING: ", industry);
   const response = await database.listDocuments(
     import.meta.env.VITE_DATABASE_ID_VEELOTU,
@@ -74,7 +74,7 @@ const response = await database.listDocuments(
 
 export const latestIntegrations = response.documents
 
-export function appwriteProvider() {
+export default function appwriteProvider() {
   return {
     getIntegrations,
     getIntegrationsByCategory,

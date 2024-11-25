@@ -4,7 +4,7 @@ import { IntegrationList } from '../components/IntegrationList';
 import { FilterPanel } from '../components/FilterPanel';
 import InnerCategory from '../components/InnerCategory';
 import { useEffect } from 'react';
-import { getIntegrationsByIndustry } from '../context/appwriteProvider.js';
+import appwriteProvider from '../context/appwriteProvider.js';
 import { useIntegrations } from '../context/integrationsData.js';
 
 export function Industry() {
@@ -13,7 +13,7 @@ export function Industry() {
 
   useEffect(() => {
     const fetchIntegrations = async () => {
-      const newIntegrations = await getIntegrationsByIndustry(id);
+      const newIntegrations = await appwriteProvider().getIntegrationsByIndustry(id);
       addIntegrationByIndustry(id, newIntegrations.documents);
     };
     fetchIntegrations();
