@@ -5,7 +5,7 @@ const openai = new OpenAI();
 
 async function askForOneIntegration(kindOfIntegration = 'i need to manage the products and medicine of my local pharmacy') {
   try {
-    const systemInstruction = "You are an integrations specialist,we need to populate our database with accurate data, because of that, you must return an integration json object format using real info from the web acording to what the user require"
+    const systemInstruction = "You are an integrations specialist,we need to populate our database with accurate data, because of that, you must return an integration json object format using real info from the web acording to integration name the user provides. We need your response in spanish always for Chilean users"
     const response = await apiInteraction(systemInstruction, kindOfIntegration, integrationSchema);
     const jsonResponse = response.choices[0].message.content;
     return JSON.parse(jsonResponse);
@@ -83,7 +83,10 @@ async function apiInteraction(systemInstruction, kindOfIntegration, schema) {
     max_tokens: 2048,
     frequency_penalty: 0,
     presence_penalty: 0,
-    response_format: schema
+    response_format: {
+      type: "json_schema",
+      json_schema: schema["json_schema"]
+    }
   })
 }
 

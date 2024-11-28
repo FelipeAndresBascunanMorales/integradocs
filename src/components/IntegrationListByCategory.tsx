@@ -45,10 +45,7 @@ export function IntegrationListByCategory({integrations} : {integrations: Integr
                     {integration.description}
                   </p>
                   <div className='flex gap-2'>
-                    {integration.tags.map((tag: { name: string; color: string }) => <span className={`rounded-full mt-2 text-xs text-gray-500 p-1 px-4 ${tag.color}`}> {tag.name} </span>)}
-                  </div>
-                  <div className='flex gap-2'>
-                    {integration.tags.map((tag: string) => <span className={`rounded-full mt-2 text-xs text-gray-500 p-1 px-4 ${tagColor}`}> {tag} </span>)}
+                    {integration.tags && (integration.tags.map((tag: string) => <span className={`rounded-full mt-2 text-xs text-gray-500 p-1 px-4 ${tagColor}`}> {tag} </span>))}
                   </div>
                 </div>
               </div>
@@ -58,7 +55,7 @@ export function IntegrationListByCategory({integrations} : {integrations: Integr
                 </span>
                 <div className="text-xs text-gray-500">
                   Complejidad: {integration.complexity}
-                      <ComplexityIndicator value={integration.complexityLevel}></ComplexityIndicator>
+                      <ComplexityIndicator value={integration.complexityLevel || 0}></ComplexityIndicator>
                 </div>
               </div>
             </div>

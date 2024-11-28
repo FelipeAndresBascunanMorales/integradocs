@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Edit2, Trash2 } from 'lucide-react';
 import { useIntegrations } from '../../context/integrationsAdmin';
 import { IntegrationForm } from './IntegrationForm';
@@ -12,7 +12,7 @@ type IntegrationListProps = {
 
 export function IntegrationList({ onEdit, editingId, onEditComplete }: IntegrationListProps) {
   const { getIntegrations, deleteIntegration } = useIntegrations();
-  const [integrations, setIntegrations] = React.useState<Integration[]>([]);
+  const [integrations, setIntegrations] = useState<Integration[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -20,7 +20,7 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
       setIntegrations(allIntegrations.documents as Integration[]);
     }
     fetchData();
-  }, []);
+  }, [getIntegrations]);
 
 
   const handleDelete = (id: string) => {
@@ -62,9 +62,9 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {integrations && (integrations.map((integration) => (
-            <React.Fragment key={integration.id}>
+            <React.Fragment key={integration.$id}>
               <tr>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4">
                   <div className="text-sm font-medium text-gray-900">
                     {integration.name}
                   </div>
@@ -72,34 +72,34 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
                     {integration.description}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 text-sm text-gray-500">
                   {integration.category}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 text-sm text-gray-500">
                   {integration.complexity}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 text-sm text-gray-500">
                   {integration.cost}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 text-sm text-gray-500">
                   {integration.industry}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td className="px-6 py-4 text-right text-sm font-medium">
                   <button
-                    onClick={() => onEdit(integration.id)}
+                    onClick={() => onEdit(integration.$id)}
                     className="text-indigo-600 hover:text-indigo-900 mr-4"
                   >
                     <Edit2 className="h-4 w-4" />
                   </button>
                   <button
-                    onClick={() => handleDelete(integration.id)}
+                    onClick={() => handleDelete(integration.$id)}
                     className="text-red-600 hover:text-red-900"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </td>
               </tr>
-              {editingId === integration.id && (
+              {editingId === integration.$id && (
                 <tr>
                   <td colSpan={6} className="px-6 py-4">
                     <IntegrationForm
