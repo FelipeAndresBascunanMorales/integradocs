@@ -1,120 +1,22 @@
 import { Link, useLocation } from 'react-router-dom';
-// import { CreditCard, Calendar, BarChart, Truck, Package } from 'lucide-react';
-import { Integration as IntegrationType} from '../context/integrationsData';
-
-// const integrationData = {
-//   transbank: {
-//     name: 'Transbank',
-//     description: 'Procesa pagos con tarjetas de crédito y débito en Chile',
-//     icon: CreditCard,
-//     category: 'Pagos',
-//     complexity: 'Media',
-//     cost: 'Pago',
-//     developerRequired: true,
-//     documentation: 'https://www.transbankdevelopers.cl/',
-//     steps: [
-//       'Crear una cuenta de desarrollador en Transbank',
-//       'Obtener las credenciales de integración',
-//       'Implementar el SDK en tu aplicación',
-//       'Realizar pruebas en ambiente de desarrollo',
-//       'Solicitar paso a producción'
-//     ],
-//     requirements: [
-//       'Sitio web con certificado SSL',
-//       'Conocimientos de programación',
-//       'Contrato con Transbank'
-//     ]
-//   },
-//   'agenda-pro': {
-//     name: 'Agenda Pro',
-//     description: 'Sistema de agendamiento para profesionales de la salud',
-//     icon: Calendar,
-//     category: 'Agendamiento',
-//     complexity: 'Baja',
-//     cost: 'Freemium',
-//     developerRequired: false,
-//     documentation: 'https://agendapro.com/developers',
-//     steps: [
-//       'Registrarse en Agenda Pro',
-//       'Configurar el calendario y servicios',
-//       'Integrar el widget de reservas',
-//       'Personalizar la apariencia',
-//       'Activar notificaciones'
-//     ],
-//     requirements: [
-//       'Sitio web',
-//       'Plan activo de Agenda Pro'
-//     ]
-//   },
-//   'google-analytics': {
-//     name: 'Google Analytics',
-//     description: 'Análisis de tráfico y comportamiento de usuarios',
-//     icon: BarChart,
-//     category: 'Analytics',
-//     complexity: 'Baja',
-//     cost: 'Gratis',
-//     developerRequired: false,
-//     documentation: 'https://developers.google.com/analytics',
-//     steps: [
-//       'Crear una cuenta de Google Analytics',
-//       'Configurar una propiedad web',
-//       'Agregar el código de seguimiento',
-//       'Configurar objetivos y eventos',
-//       'Verificar la recopilación de datos'
-//     ],
-//     requirements: [
-//       'Cuenta de Google',
-//       'Sitio web'
-//     ]
-//   },
-//   chilexpress: {
-//     name: 'Chilexpress',
-//     description: 'Integración con servicios de envío en Chile',
-//     icon: Truck,
-//     category: 'Envíos',
-//     complexity: 'Media',
-//     cost: 'Pago',
-//     developerRequired: true,
-//     documentation: 'https://developers.chilexpress.cl',
-//     steps: [
-//       'Solicitar credenciales de API',
-//       'Implementar el SDK',
-//       'Configurar cotización de envíos',
-//       'Integrar seguimiento de pedidos',
-//       'Realizar pruebas'
-//     ],
-//     requirements: [
-//       'Contrato con Chilexpress',
-//       'Conocimientos de programación',
-//       'Sitio web o aplicación'
-//     ]
-//   },
-//   bsale: {
-//     name: 'Bsale',
-//     description: 'Sistema de gestión de inventario y facturación',
-//     icon: Package,
-//     category: 'Inventario',
-//     complexity: 'Alta',
-//     cost: 'Pago',
-//     developerRequired: true,
-//     documentation: 'https://bsale.cl/developers',
-//     steps: [
-//       'Crear cuenta en Bsale',
-//       'Solicitar acceso a la API',
-//       'Implementar sincronización de productos',
-//       'Configurar facturación electrónica',
-//       'Realizar pruebas de integración'
-//     ],
-//     requirements: [
-//       'Plan activo de Bsale',
-//       'Conocimientos de programación',
-//       'Sistema de comercio electrónico'
-//     ]
-//   }
-// };
+import { 
+  Code2, 
+  Blocks, 
+  Cpu, 
+  Tags, 
+  BadgeDollarSign, 
+  Building2, 
+  CheckCircle2, 
+  XCircle,
+  FileCode2,
+  Activity,
+  BookOpen,
+  ArrowUpRightFromSquare
+} from 'lucide-react';
+import { Integration as IntegrationType} from '../types/integration';
+import { parameterize } from '../lib/utils';
 
 export function Integration() {
-
   const location = useLocation();
   const integration = location?.state as IntegrationType;
 
@@ -123,85 +25,201 @@ export function Integration() {
       <div className="text-center py-12">
         <h1 className="text-2xl font-bold text-gray-900">Integración no encontrada</h1>
         <p className="mt-2 text-gray-600">La integración que buscas no existe.</p>
+        <Link to="/" className="mt-4 inline-block text-indigo-600 hover:text-indigo-500">
+          Volver al inicio
+        </Link>
       </div>
     );
   }
 
-  // const Icon = integration.icon;
-
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
       {/* Header */}
       <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-        <div className="flex items-center gap-4">
-          <div className="p-3 bg-indigo-100 rounded-lg">
-            {/* <Icon className="h-8 w-8 text-indigo-600" /> */}
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">{integration.name}</h1>
-            <p className="mt-1 text-lg text-gray-600">{integration.description}</p>
-          </div>
-        </div>
-
-        <div className="mt-6 grid grid-cols-3 gap-4">
-          <div className="group">
-            <Link to={`/${integration.category}`}>
-              <div className="p-4 bg-gray-50 rounded-lg border hover:shadow-md group-hover:text-indigo-400">
-                <h3 className="text-sm font-medium text-gray-500">Categoría</h3>
-                <p className="mt-1 text-lg font-medium text-gray-900">{integration.category}</p>
+        <div className="flex items-start justify-between">
+          <div className="flex items-start gap-4">
+            {integration.icon ? (
+              <img src={integration.icon} alt={integration.name} className="w-16 h-16 object-contain" />
+            ) : (
+              <div className="p-4 bg-indigo-100 rounded-lg">
+                <Code2 className="w-8 h-8 text-indigo-600" />
               </div>
-            </Link>
-          </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="text-sm font-medium text-gray-500">Complejidad</h3>
-            <p className="mt-1 text-lg font-medium text-gray-900">{integration.complexity}</p>
-          </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="text-sm font-medium text-gray-500">Costo</h3>
-            <p className="mt-1 text-lg font-medium text-gray-900">{integration.cost}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Requirements */}
-      <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Requisitos</h2>
-        <ul className="list-disc list-inside space-y-2">
-          {/* {integration.requirements.map((requirement, index) => (
-            <li key={index} className="text-gray-600">{requirement}</li>
-          ))} */}
-        </ul>
-      </div>
-
-      {/* Integration Steps */}
-      <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Pasos de Integración</h2>
-        <div className="space-y-4">
-          {/* {integration.steps.map((step, index) => (
-            <div key={index} className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-indigo-600">{index + 1}</span>
-              </div>
-              <p className="text-gray-600 pt-1">{step}</p>
+            )}
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">{integration.name}</h1>
+              <p className="mt-2 text-gray-600">{integration.description}</p>
             </div>
-          ))} */}
+          </div>
+          {integration.recommended && (
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+              Recomendado
+            </span>
+          )}
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-gray-50 rounded-lg space-y-1">
+            <div className="flex items-center text-gray-500">
+              <Blocks className="w-4 h-4 mr-2" />
+              <h3 className="text-sm font-medium">Tipo</h3>
+            </div>
+            <p className="text-lg font-medium text-gray-900">{integration.kindOf || 'No especificado'}</p>
+          </div>
+
+          <div className="p-4 bg-gray-50 rounded-lg space-y-1">
+            <div className="flex items-center text-gray-500">
+              <Cpu className="w-4 h-4 mr-2" />
+              <h3 className="text-sm font-medium">Complejidad</h3>
+            </div>
+            <p className="text-lg font-medium text-gray-900">{integration.complexity || 'No especificada'}</p>
+          </div>
+
+          <div className="p-4 bg-gray-50 rounded-lg space-y-1">
+            <div className="flex items-center text-gray-500">
+              <BadgeDollarSign className="w-4 h-4 mr-2" />
+              <h3 className="text-sm font-medium">Pricing</h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {integration.pricing?.map((price) => (
+                <span key={price} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  {price}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Documentation */}
-      <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Documentación</h2>
-        <p className="text-gray-600 mb-4">
-          Para más detalles sobre la integración, consulta la documentación oficial:
-        </p>
-        <a
-          href={integration.documentation}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Ver Documentación
-        </a>
+      {/* Details Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Left Column */}
+        <div className="space-y-6">
+          {/* Tags */}
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div className="flex items-center gap-2 mb-4">
+              <Tags className="w-5 h-5 text-indigo-600" />
+              <h2 className="text-xl font-bold text-gray-900">Tags</h2>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {integration.tags?.map((tag) => (
+                <span key={tag} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Technical Details */}
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div className="flex items-center gap-2 mb-4">
+              <FileCode2 className="w-5 h-5 text-indigo-600" />
+              <h2 className="text-xl font-bold text-gray-900">Detalles Técnicos</h2>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <Activity className="w-4 h-4 text-gray-400" />
+                <span className="text-sm text-gray-600">Nivel de Complejidad:</span>
+                <span className="font-medium">{integration.complexityLevel}/100</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-gray-400" />
+                <span className="text-sm text-gray-600">Industria:</span>
+                <span className="font-medium">{integration.industry || 'No especificada'}</span>
+                <Link to={`/${parameterize(integration.industry ?? 'unknown')}`}> <ArrowUpRightFromSquare className='w-4 h-4'/> </Link>
+              </div>
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-gray-400" />
+                <span className="text-sm text-gray-600">Categoría:</span>
+                <span className="font-medium">{integration.category || 'No especificada'}</span>
+                <Link to={`/${parameterize(integration.category ?? 'unknown')}`}> <ArrowUpRightFromSquare className='w-4 h-4'/> </Link>
+              </div>
+              <div className="flex items-center gap-2">
+                <Code2 className="w-4 h-4 text-gray-400" />
+                <span className="text-sm text-gray-600">Requiere Desarrollador:</span>
+                {integration.requireDev ? (
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                ) : (
+                  <XCircle className="w-4 h-4 text-red-500" />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column */}
+        <div className="space-y-6">
+          {/* Integration Details */}
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div className="flex items-center gap-2 mb-4">
+              <BookOpen className="w-5 h-5 text-indigo-600" />
+              <h2 className="text-xl font-bold text-gray-900">Detalles de Integración</h2>
+            </div>
+            
+            {integration.integrationDetails && (
+              <div className="space-y-6">
+                {integration.integrationDetails.fullDescription && (
+                  <div className="prose prose-sm max-w-none">
+                    <p>{integration.integrationDetails.fullDescription}</p>
+                  </div>
+                )}
+
+                {/* Pros & Cons */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-900 mb-2">Pros</h3>
+                    <ul className="space-y-1">
+                      {integration.integrationDetails.pros?.map((pro, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5" />
+                          <span className="text-sm text-gray-600">{pro}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-900 mb-2">Contras</h3>
+                    <ul className="space-y-1">
+                      {integration.integrationDetails.cons?.map((con, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <XCircle className="w-4 h-4 text-red-500 mt-0.5" />
+                          <span className="text-sm text-gray-600">{con}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Use Cases */}
+                {integration.integrationDetails.useCases && integration.integrationDetails.useCases.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-900 mb-2">Casos de Uso</h3>
+                    <ul className="list-disc list-inside space-y-1">
+                      {integration.integrationDetails.useCases.map((useCase, index) => (
+                        <li key={index} className="text-sm text-gray-600">{useCase}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Documentation Link */}
+                {integration.integrationDetails.documentations && (
+                  <div className="pt-4">
+                    <a
+                      href={integration.integrationDetails.documentations}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-500"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      <span>Ver Documentación</span>
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

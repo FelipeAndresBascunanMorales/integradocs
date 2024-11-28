@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Edit2, Trash2 } from 'lucide-react';
+import { Edit2, Trash2, Eye } from 'lucide-react';
 import { useIntegrations } from '../../context/integrationsAdmin';
 import { IntegrationForm } from './IntegrationForm';
 import { Integration } from '../../types/integration';
+import { parameterize } from '../../lib/utils';
+import { Link } from 'react-router-dom';
 
 type IntegrationListProps = {
   onEdit: (id: string) => void;
@@ -83,18 +85,27 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
                   {integration.industry}
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">
-                  <button
-                    onClick={() => onEdit(integration.$id)}
-                    className="text-indigo-600 hover:text-indigo-900 mr-4"
-                  >
-                    <Edit2 className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(integration.$id)}
-                    className="text-red-600 hover:text-red-900"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                 <div className='flex'>
+                  <Link
+                      to={`/integration/${parameterize(integration.name)}`}
+                      state={integration}
+                      className='text-indigo-600 hover:text-indigo-900 mr-4'
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Link>
+                    <button
+                      onClick={() => onEdit(integration.$id)}
+                      className="text-indigo-600 hover:text-indigo-900 mr-4"
+                    >
+                      <Edit2 className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(integration.$id)}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                 </div>
                 </td>
               </tr>
               {editingId === integration.$id && (
