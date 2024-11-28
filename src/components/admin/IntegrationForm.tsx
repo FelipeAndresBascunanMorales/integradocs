@@ -1,9 +1,9 @@
-import React from 'react';
-import { Save, X, Sparkles } from 'lucide-react';
+import { Save, X, Sparkles, Lamp } from 'lucide-react';
 import { useIntegrations } from '../../context/integrationsAdmin';
 // import { Integration } from '../../context/integrationsData';
 import { Integration, NewIntegration, UpdateIntegration } from '../../types/integration';
 import { getIntegrationCompletion } from '../../context/appwriteProvider';
+import { FormEvent, useState } from 'react';
 
 // type Integration = {
 //   $id?: string;
@@ -36,7 +36,8 @@ type IntegrationFormProps = {
 
 export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFormProps) {
   const { addIntegration, updateIntegration } = useIntegrations();
-  const [formData, setFormData] = React.useState<NewIntegration>({
+  const [generating, setGenerating] = useState(false);
+  const [formData, setFormData] = useState<NewIntegration>({
     name: '',
     description: '',
     ...integration,
@@ -50,16 +51,10 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
     }
   });
 
-  const handleChatGPTRequest = async (text: string) => {
-    const response = await getIntegrationCompletion(text);
-    setFormData({
-      ...formData,
-      ...response
-    });
-  }
 
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.description) {
@@ -75,6 +70,37 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
     
     onSave();
   };
+
+  const handleChatGPTRequest = async (text: string) => {
+    try {
+      setGenerating(true);
+    const response = await getIntegrationCompletion(text);
+    if (!response.responseBody) {
+      console.error("something wrong with the cloud function");
+      return;
+    }
+    let integration
+    
+    try {
+      integration = JSON.parse(response.responseBody)?.integration;
+    }
+    catch (error) {
+      console.error("error parsing response", error);
+      return;
+    }
+
+    setFormData(prevData => ({
+      ...prevData,
+      ...integration
+    }));
+    }
+    catch (error) {
+      console.error("error while generating with AI", error);
+    }
+    finally {
+      setGenerating(false);
+    }
+  }
 
   const handleArrayInput = (field: keyof Integration, value: string) => {
     const arrayValue = value.split(',').map(item => item.trim()).filter(Boolean);
@@ -107,7 +133,11 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
               required
               maxLength={50}
             />
-            <button className='flex' onClick={() => handleChatGPTRequest(formData.name)}><Sparkles /> Completar con IA</button>
+            <button type='button' className='flex border p-2 mt-1 disabled:opacity-50 disabled:cursor-not-allowed' disabled={formData.name.length < 3 || generating}
+              onClick={(e) => { e.preventDefault(); handleChatGPTRequest(formData.name) }}>
+              {generating ? (<><Lamp />generating...</>) : (<><Sparkles className=' text-fuchsia-600 p-1 mr-1'/> Completar con IA</>)}
+            </button>
+            
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Ícono URL</label>

@@ -45,7 +45,7 @@ export function IntegrationListByCategory({integrations} : {integrations: Integr
                     {integration.description}
                   </p>
                   <div className='flex gap-2'>
-                    {integration.tags && (integration.tags.map((tag: string) => <span className={`rounded-full mt-2 text-xs text-gray-500 p-1 px-4 ${tagColor}`}> {tag} </span>))}
+                    {integration.tags && (integration.tags.map((tag: string) => <span key={tag} className={`rounded-full mt-2 text-xs text-gray-500 p-1 px-4 ${tagColor}`}> {tag} </span>))}
                   </div>
                 </div>
               </div>

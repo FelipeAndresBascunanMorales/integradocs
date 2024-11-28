@@ -22,7 +22,7 @@ export default async ({ req, log, res, error }) => {
     });
   }
 
-  if (req.method === 'GET' && req.query.prompt) {
+  if (req.method === 'GET' && req.query?.prompt) {
     try {
       const integration = await getIntegration(req, log);
       return res.json({ ok: true, integration }, 200);

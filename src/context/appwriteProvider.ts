@@ -101,7 +101,7 @@ export async function getIntegrationCompletion(integrationName: string) {
   const response = await functions.createExecution(
     import.meta.env.VITE_FUNCTION_ID_COMPLETION,
     '', // body (optional)
-    true, // async (optional)
+    false, // async (optional)
     `/?prompt=${encodeURIComponent(integrationName)}`, // path (optional)
     ExecutionMethod.GET, // method (optional)
     {}, // headers (optional)

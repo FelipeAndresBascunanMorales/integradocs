@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Edit2, Trash2 } from 'lucide-react';
 import { useIntegrations } from '../../context/integrationsAdmin';
 import { IntegrationForm } from './IntegrationForm';
-import { Integration } from '../../context/integrationsData';
+import { Integration } from '../../types/integration';
 
 type IntegrationListProps = {
   onEdit: (id: string) => void;
@@ -29,13 +29,11 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
     }
   };
 
-  if (!integrations) {
-    return <div>Cargando...</div>;
+  if (!integrations.length) {
+    return <div className=' text-center py-4'>Cargando...</div>;
   }
-  console.log(integrations);
 
   return (
-
     <div className="bg-white shadow-sm rounded-lg overflow-hidden">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
