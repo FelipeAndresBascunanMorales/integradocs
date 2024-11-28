@@ -5,7 +5,7 @@ import { throwIfMissing } from './utils.js';
 export default async ({ req, log, res, error }) => {
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
   let htmlResponse = '<html><body><div>integration not found</div></body></html>'
-  if (req.method === 'GET' && req.params.prompt) {
+  if (req.method === 'GET' && req.params?.prompt) {
     try {
       const integration = await getIntegration(req, log);
       const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
