@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Award, Package } from 'lucide-react';
 import ComplexityIndicator from './ui/complexityIndicator';
 import { Integration } from '../types/integration';
+import { cn, parameterize } from '../lib/utils';
 
 const costColors = {
   Gratis: 'text-green-600',
@@ -9,14 +10,15 @@ const costColors = {
   Freemium: 'text-yellow-600',
 };
 
-export default function IntegrationCardV2({integration} : { integration: Integration }) {
+export default function IntegrationCardV2({className, integration} : { className?: string; integration: Integration }) {
   return (
     <>
       {(integration) && (
         <Link
           key={integration.id}
-          to={`/integration/${integration.id}`}
-          className="block group"
+          to={`/integration/${parameterize(integration.name)}`}
+          state={integration}
+          className={cn("block group", className)}
         >
           <div className="h-full p-6 bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md hover:border-indigo-200">
             <div className='flex justify-between'>

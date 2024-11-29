@@ -4,25 +4,11 @@ import ComplexityIndicator from './ui/complexityIndicator';
 import { useIntegrations } from '../context/integrationsData';
 
 export function IntegrationList({ industryId }: { industryId: string }) {
-  const { query, filters } = useSearch();
+  const { applyFilters } = useSearch();
   const { integrationsByIndustry } = useIntegrations();
   const integrations = integrationsByIndustry[industryId as keyof typeof integrationsByIndustry] || [];
 
-  const filteredIntegrations = integrations.filter((integration) => {
-    const matchesQuery = integration.name.toLowerCase().includes(query.toLowerCase()) ||
-      integration.description.toLowerCase().includes(query.toLowerCase());
-    
-    const matchesComplexity = filters.complexity.length === 0 ||
-      filters.complexity.includes(integration.complexity);
-    
-    const matchesCost = filters.cost.length === 0 ||
-      filters.cost.includes(integration.cost);
-    
-    const matchesDeveloper = filters.developerRequired === null ||
-      filters.developerRequired === integration.developerRequired;
-
-    return matchesQuery && matchesComplexity && matchesCost && matchesDeveloper;
-  });
+  const filteredIntegrations = applyFilters(integrations);
 
   if (filteredIntegrations.length === 0) {
     return (

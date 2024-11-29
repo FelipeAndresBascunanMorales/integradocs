@@ -7,8 +7,7 @@ import {
   AccordionTrigger,
 } from "./ui/Accordion"
 import { useIntegrations } from "../context/integrationsData";
-import { Document } from "../context/appwriteProvider";
-
+import { Integration } from "../types/integration";
 
 export default function InnerCategory({ industryId }: { industryId: string }) {
 
@@ -18,8 +17,8 @@ export default function InnerCategory({ industryId }: { industryId: string }) {
     return null;
   }
 
-  const integrationsSortedByCategory = integrations.reduce((acc: { [key: string]: Document[] }, integration) => {
-    const category = integration.category.toLowerCase();
+  const integrationsSortedByCategory = integrations.reduce((acc: { [key: string]: Integration[] }, integration) => {
+    const category = integration.category?.toLowerCase() || "Sin Categoría";
     if (acc[category]) {
       acc[category].push(integration);
     } else {

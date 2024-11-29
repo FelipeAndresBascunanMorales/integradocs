@@ -74,25 +74,25 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
   const handleChatGPTRequest = async (text: string) => {
     try {
       setGenerating(true);
-    const response = await getIntegrationCompletion(text);
-    if (!response.responseBody) {
-      console.error("something wrong with the cloud function");
-      return;
-    }
-    let integration
-    
-    try {
-      integration = JSON.parse(response.responseBody)?.integration;
-    }
-    catch (error) {
-      console.error("error parsing response", error);
-      return;
-    }
+      const response = await getIntegrationCompletion(text);
+      if (!response.responseBody) {
+        console.error("something wrong with the cloud function");
+        return;
+      }
+      let integration
+      
+      try {
+        integration = JSON.parse(response.responseBody)?.integration;
+      }
+      catch (error) {
+        console.error("error parsing response", error);
+        return;
+      }
 
-    setFormData(prevData => ({
-      ...prevData,
-      ...integration
-    }));
+      setFormData(prevData => ({
+        ...prevData,
+        ...integration
+      }));
     }
     catch (error) {
       console.error("error while generating with AI", error);

@@ -39,7 +39,7 @@ export function Integration() {
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-4">
             {integration.icon ? (
-              <img src={integration.icon} alt={integration.name} className="w-16 h-16 object-contain" />
+              <img src={integration.icon} alt={integration.name} className="w-16 h-auto object-contain" onError={(e) => {e.currentTarget.src = "/workflow.svg"}}/>
             ) : (
               <div className="p-4 bg-indigo-100 rounded-lg">
                 <Code2 className="w-8 h-8 text-indigo-600" />
