@@ -4,7 +4,7 @@ import { throwIfMissing } from './utils.js';
 
 export default async ({ req, log, res, error }) => {
   log("everything will be alright");
-  log("req", req);
+  log("req");
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
   let htmlResponse = '<html><body><div>integration not found</div></body></html>'
   if (req.method === 'GET' && req.params?.prompt) {
@@ -36,11 +36,12 @@ export default async ({ req, log, res, error }) => {
 
 
   if (req.method === 'POST') {
+    log("we are in the post method")
     try {
       const integrationRequirement = JSON.stringify(req.body?.integrations);
       const integrationsList = await askForManyIntegrations(integrationRequirement, log, error);
 
-      log("integrationsList", integrationsList);
+      log("integrationsList");
       await Promise.all(integrationsList.map(async integration => {
         const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
         log("integrations", integrationDocument);

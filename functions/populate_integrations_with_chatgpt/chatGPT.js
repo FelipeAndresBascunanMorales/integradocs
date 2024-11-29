@@ -7,9 +7,9 @@ async function askForOneIntegration(kindOfIntegration = 'i need to manage the pr
   try {
     const systemInstruction = "You are an integrations specialist,we need to populate our database with accurate data, because of that, you must return an integration json object format using real info from the web acording to integration name the user provides. We need your response in spanish always for Chilean users"
     const response = await apiInteraction(systemInstruction, kindOfIntegration, integrationSchema);
-    log("***response: ", response);
+    log("***response");
     const jsonResponse = response.choices[0].message.content;
-    log("***jsonResponse: ", jsonResponse);
+    log("***jsonResponse");
     return JSON.parse(jsonResponse);
   }catch (err) {
     throw new Error("Error in conversation: " + err);
@@ -23,7 +23,7 @@ async function askForManyIntegrations(integrationRequirement, log, error) {
     
     const response = await apiInteraction(systemInstruction, requirement, integrationListSchema);
     const jsonResponse = response.choices[0].message.content;
-    log("***jsonResponse: ", jsonResponse);
+    log("***jsonResponse");
     return JSON.parse(jsonResponse)?.integrations;
     }catch (err) {
       error("*** error from chatgpt: " + err);
