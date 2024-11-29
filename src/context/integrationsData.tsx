@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
-import { latestIntegrations, Document } from './appwriteProvider.js'
+import { latestIntegrations } from './appwriteProvider.js'
+import { Integration } from '../types/integration';
 
-export type Integration = Document
+// export type Integration = Document
 
 interface IntegrationsByIndustry {
   [key: string]: Integration[];

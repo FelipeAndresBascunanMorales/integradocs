@@ -67,13 +67,13 @@ async function getIntegrationsByIndustry(industry: string) {
 //   };
 // }
 
-const response = await database.listDocuments(
+const responseLatestIntegrations = await database.listDocuments(
   import.meta.env.VITE_DATABASE_ID_VEELOTU,
   import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
   [Query.orderDesc("$createdAt"), Query.limit(30)]
 );
 
-export const latestIntegrations = response.documents
+export const latestIntegrations = responseLatestIntegrations.documents as Integration[];
 
 export async function saveIntegration(integration: NewIntegration) {
   const innerID = ID.unique();

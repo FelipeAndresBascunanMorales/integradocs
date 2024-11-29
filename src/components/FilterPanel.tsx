@@ -1,13 +1,14 @@
 import { useSearch } from '../context/SearchContext';
+import { cn } from '../lib/utils';
 
-export function FilterPanel() {
+export function FilterPanel({className = ''}: {className?: string}) {
   const { filters, setFilters } = useSearch();
 
   const complexityOptions = ['Baja', 'Media', 'Alta'];
   const costOptions = ['Gratis', 'Freemium', 'Pago'];
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <div className={cn(className, "bg-white p-6 rounded-lg shadow-sm border border-gray-200")}>
       <h2 className="text-lg font-medium text-gray-900 mb-4">Filtros</h2>
 
       {/* Complexity Filter */}

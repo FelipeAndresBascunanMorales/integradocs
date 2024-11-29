@@ -1,4 +1,5 @@
 import React from 'react';
+import { Integration } from '../types/integration';
 
 type SearchContextType = {
   query: string;
@@ -15,6 +16,7 @@ type SearchContextType = {
       developerRequired: boolean | null;
     }>
   >;
+  applyFilters: (integrations: Integration[]) => Integration[];
 };
 
 const SearchContext = React.createContext<SearchContextType>({
@@ -26,6 +28,7 @@ const SearchContext = React.createContext<SearchContextType>({
     developerRequired: null,
   },
   setFilters: () => {},
+  applyFilters: () => [],
 });
 
 export function SearchProvider({ children }: { children: React.ReactNode }) {
@@ -36,8 +39,26 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     developerRequired: null,
   } as SearchContextType['filters']);
 
+  function applyFilters(integrations: Integration[]) {
+    return integrations.filter(e => {
+      const matchesQuery = e.name.toLowerCase().includes(query.toLowerCase()) ||
+        e.description.toLowerCase().includes(query.toLowerCase());
+      
+      const matchesComplexity = filters.complexity.length === 0 ||
+        e.complexity && filters.complexity.includes(e.complexity);
+      
+      const matchesCost = filters.cost.length === 0 ||
+        filters.cost.includes(e.cost);
+      
+      const matchesDeveloper = filters.developerRequired === null ||
+        filters.developerRequired === e.developerRequired;
+
+      return matchesQuery && matchesComplexity && matchesCost && matchesDeveloper;
+    });
+  }
+
   return (
-    <SearchContext.Provider value={{ query, setQuery, filters, setFilters }}>
+    <SearchContext.Provider value={{ query, setQuery, filters, setFilters, applyFilters }}>
       {children}
     </SearchContext.Provider>
   );
