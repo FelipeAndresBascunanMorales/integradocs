@@ -2,7 +2,7 @@
 import { Layout } from './components/Layout'
 import { IntegrationsProvider } from './context/integrationsData'
 import { SearchProvider } from './context/SearchContext'
-import Category from './pages/[category]'
+import Category from './pages/category'
 import { Admin } from './pages/Admin'
 import { Home } from './pages/Home'
 import { Industry } from './pages/Industry'
@@ -23,7 +23,7 @@ function App() {
               <Route path="/industry/:id" element={<Industry />} />
               <Route path="/integration/:id" element={<Integration />} />
               <Route path={`/${HEART}`} element={<Home />} />
-              <Route path={`/:category`} element={<Category />} />
+              <Route path={`/category/:id`} element={<Category />} />
               <Route path='/admin' element={<Admin />} />
               <Route path={'/all'} element={<Search />} />
             </Routes>

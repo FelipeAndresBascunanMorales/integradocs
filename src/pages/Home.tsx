@@ -3,7 +3,7 @@ import { SearchBar } from '../components/SearchBar';
 import { IndustryGrid } from '../components/IndustryGrid';
 import { FeaturedIntegrations } from '../components/FeaturedIntegrations';
 import { useSearch } from '../context/SearchContext';
-import { Suspense, useEffect, useState, useTransition } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useIntegrations } from '../context/integrationsData';
 import { Integration } from '../types/integration';
 import IntegrationCardV2 from '../components/IntegrationCard_v2';
@@ -14,15 +14,12 @@ export function Home() {
   const { integrations } = useIntegrations();
   const [renderSearchResult, setRenderSearchresult] = useState(false);
   const [filteredIntegrations, setFilteredIntegrations] = useState<Integration[]>([]);
-  const [isPending, startTransition] = useTransition();
 
   const [isEnabled, setIsEnabled] = useState(true);
 
   useEffect(() => {
-    startTransition(() => {
       const filteredIntegrations = applyFilters(integrations);
     setFilteredIntegrations(filteredIntegrations.slice(0, 3));
-    });
   }, [query]);
   
   useEffect(() => {

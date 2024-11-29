@@ -31,7 +31,6 @@ async function getIntegrationsByCategory(category: string) {
 }
 
 async function getIntegrationsByIndustry(industry: string) {
-  console.log("WE ARE GETTING: ", industry);
   const response = await database.listDocuments(
     import.meta.env.VITE_DATABASE_ID_VEELOTU,
     import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
@@ -100,6 +99,18 @@ const functions = new Functions(client);
 export async function getIntegrationCompletion(integrationName: string) {
   const response = await functions.createExecution(
     import.meta.env.VITE_FUNCTION_ID_COMPLETION,
+    '', // body (optional)
+    false, // async (optional)
+    `/?prompt=${encodeURIComponent(integrationName)}`, // path (optional)
+    ExecutionMethod.GET, // method (optional)
+    {}, // headers (optional)
+  );
+  return response
+}
+
+export async function getSuggestion(integrationName: string) {
+  const response = await functions.createExecution(
+    import.meta.env.VITE_FUNCTION_ID_SUGGESTION,
     '', // body (optional)
     false, // async (optional)
     `/?prompt=${encodeURIComponent(integrationName)}`, // path (optional)

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Award } from 'lucide-react';
 import ComplexityIndicator from './ui/complexityIndicator';
-import { Integration } from '../context/integrationsData';
+import { Integration } from '../types/integration';
 import { parameterize } from '../lib/utils';
 
 const costColors = {
