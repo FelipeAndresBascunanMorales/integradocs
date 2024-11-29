@@ -37,7 +37,7 @@ export default async ({ req, log, res, error }) => {
 
   if (req.method === 'POST') {
     try {
-      const integrationRequirement = JSON.stringify(req.body.integrations);
+      const integrationRequirement = JSON.stringify(req.body?.integrations);
       const integrationsList = await askForManyIntegrations(integrationRequirement, log, error);
 
       log("integrationsList", integrationsList);
@@ -58,7 +58,7 @@ export default async ({ req, log, res, error }) => {
 }
 
 async function getIntegration(req, log) {
-  const param = req.query.prompt;
+  const param = req.query?.prompt;
   const chatGptResponse = await askForOneIntegration(param, log);
   return chatGptResponse;
 }

@@ -3,11 +3,13 @@ import { integrationSchema, integrationListSchema } from './models/integrationSc
 
 const openai = new OpenAI();
 
-async function askForOneIntegration(kindOfIntegration = 'i need to manage the products and medicine of my local pharmacy') {
+async function askForOneIntegration(kindOfIntegration = 'i need to manage the products and medicine of my local pharmacy', log) {
   try {
     const systemInstruction = "You are an integrations specialist,we need to populate our database with accurate data, because of that, you must return an integration json object format using real info from the web acording to integration name the user provides. We need your response in spanish always for Chilean users"
     const response = await apiInteraction(systemInstruction, kindOfIntegration, integrationSchema);
+    log("***response: ", response);
     const jsonResponse = response.choices[0].message.content;
+    log("***jsonResponse: ", jsonResponse);
     return JSON.parse(jsonResponse);
   }catch (err) {
     throw new Error("Error in conversation: " + err);
