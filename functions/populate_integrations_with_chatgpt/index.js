@@ -3,6 +3,8 @@ import { askForOneIntegration, askForManyIntegrations } from './chatGPT.js';
 import { throwIfMissing } from './utils.js';
 
 export default async ({ req, log, res, error }) => {
+  log("everything will be alright");
+  log("req", req);
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
   let htmlResponse = '<html><body><div>integration not found</div></body></html>'
   if (req.method === 'GET' && req.params?.prompt) {
