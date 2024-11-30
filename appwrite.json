@@ -54,6 +54,25 @@
             "entrypoint": "index.js",
             "commands": "npm install",
             "path": "functions/populate_integrations_with_chatgpt"
+        },
+        {
+            "$id": "674a4ef80029e99dff5f",
+            "execute": [
+                "any"
+            ],
+            "name": "suggestion",
+            "enabled": true,
+            "logging": true,
+            "runtime": "node-22",
+            "scopes": [
+                "users.read"
+            ],
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "entrypoint": "src/main.js",
+            "commands": "npm install",
+            "path": "functions/suggestion"
         }
     ],
     "databases": [
