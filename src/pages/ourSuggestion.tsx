@@ -19,7 +19,7 @@ export default function NeedsResultPage() {
   const { query } = useParams<{ query: string }>();
   const prompt = new URLSearchParams(query).get('prompt');
 
-  const completion = await getSuggestion(prompt);
+  const completion = getSuggestion(prompt || '');
 
   const [results, setResults] = useState({
     mainSuggestion: null,

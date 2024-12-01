@@ -15,3 +15,7 @@ Content-Type: application/json
 {
   "integrations": "i need 2 integrations Onepay and BancoEstado"
 }
+
+###
+
+GET http://localhost:3000/

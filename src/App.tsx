@@ -9,6 +9,7 @@ import { Industry } from './pages/Industry'
 import { Integration } from './pages/Integration'
 import { BrowserRouter as Router, Routes, Route }  from 'react-router-dom'
 import Search from './pages/All'
+import OurSuggestion from './pages/ourSuggestion'
 
 function App() {
   const HEART = '❤'
@@ -26,6 +27,7 @@ function App() {
               <Route path={`/category/:id`} element={<Category />} />
               <Route path='/admin' element={<Admin />} />
               <Route path={'/all'} element={<Search />} />
+              <Route path={'/ourSuggestion/:query'} element={<OurSuggestion />} />
             </Routes>
           </Layout>
         </SearchProvider>
