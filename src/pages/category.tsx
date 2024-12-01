@@ -21,7 +21,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     if(!category) {
-      navigate('/'); // could i create a 404 page, or show a friendly message here.
+      navigate('/all'); // could i create a 404 page, or show a friendly message here.
     }
   },[category, navigate]);
 

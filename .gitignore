@@ -1,6 +1,8 @@
 appwrite.json
 .env
 
+scripts/**/*
+
 # Logs
 logs
 *.log
