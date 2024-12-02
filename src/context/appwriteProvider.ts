@@ -117,6 +117,7 @@ export async function getSuggestion(integrationName: string) {
     ExecutionMethod.GET, // method (optional)
     {}, // headers (optional)
   );
+  console.log("the execution response in appwriteProvider:", response);
   return response
 }
 

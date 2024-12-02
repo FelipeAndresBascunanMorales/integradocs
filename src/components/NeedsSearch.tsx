@@ -14,7 +14,7 @@ export default function NeedsSearch() {
     setIsSearching(true);
     try {
       const encodedQuery = encodeURIComponent(input.trim());
-      navigate(`/ourSuggestion/?promt=${encodedQuery}`);
+      navigate(`/oursuggestion/?prompt=${encodedQuery}`);
       // Process and display results
     } finally {
       setIsSearching(false);

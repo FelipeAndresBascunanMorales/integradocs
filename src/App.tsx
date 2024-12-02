@@ -27,7 +27,7 @@ function App() {
               <Route path={`/category/:id`} element={<Category />} />
               <Route path='/admin' element={<Admin />} />
               <Route path={'/all'} element={<Search />} />
-              <Route path={'/ourSuggestion/:query'} element={<OurSuggestion />} />
+              <Route path={'/oursuggestion/'} element={<OurSuggestion />} />
             </Routes>
           </Layout>
         </SearchProvider>

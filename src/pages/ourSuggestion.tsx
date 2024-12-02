@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import IntegrationCardV2 from "../components/IntegrationCard_v2";
 import { getSuggestion } from "../context/appwriteProvider";
 import { useIntegrations } from "../context/integrationsData";
@@ -12,17 +12,22 @@ type paramsResults = {
   relatedIntegrations: {
     title: string;
     description: string;
+    benefits: string;
+    insights: string;
   }[];
   alternatives: {
     title: string;
     description: string;
+    category: string;
   }[];
 };
 
-export default function NeedsResultPage() {
-  const { query } = useParams<{ query: string }>();
-  const prompt = new URLSearchParams(query).get('prompt');
-  const completion = getSuggestion(prompt || '');
+export default function OurSuggestion() {
+  const [searchParams] = useSearchParams()
+  const prompt = searchParams.get('prompt') || '';
+  console.log('prompt:', prompt);
+
+  // const completion = getSuggestion(prompt || '');
   const [isLoading, setIsLoading] = useState(true);
   const { integrations } = useIntegrations();
   const showOldVersion = false;
@@ -33,27 +38,21 @@ export default function NeedsResultPage() {
     alternatives: []
   } as paramsResults);
 
+
   useEffect(() => {
     async function getResults() {
       setIsLoading(true);
       try {
-        const completion = await getSuggestion(query) as JSON;
-        // Assuming completion returns a suggestion string
-        // We can parse it and match with existing integrations
-        const parsedResults = {
-          mainSuggestion: {
-            explanation: completion,
-            recommendedApproach: "Based on your needs..."
-          },
-          // Filter integrations based on the completion content
-          relatedIntegrations: integrations.filter(integration =>
-            integration.description.toLowerCase().includes(query.toLowerCase()) ||
-            integration.category?.toLowerCase().includes(query.toLowerCase())
-          ).slice(0, 3),
-          alternatives: []
-        };
+        const completion = await getSuggestion(prompt);
+        console.log('completion!!!:', completion);
+        const data = await JSON.parse(completion.responseBody).data as paramsResults;
+        setResults(data);
+        console.log('we set the result data:', data);
+        
+        const relatedIntegrations = integrations.filter(integration =>
+            results.relatedIntegrations.some(i => integration.name.toLowerCase().includes(i.title.toLowerCase()))
+          ).slice(0, 3);
 
-        setResults(parsedResults);
       } catch (error) {
         console.error('Error getting suggestions:', error);
       } finally {
@@ -61,10 +60,10 @@ export default function NeedsResultPage() {
       }
     }
 
-    if (query) {
+    if (prompt) {
       getResults();
     }
-  }, [query]);
+  }, [prompt]);
 
   if (isLoading) {
     return (
@@ -72,6 +71,11 @@ export default function NeedsResultPage() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
           <p className="text-gray-600">Analizando tu necesidad...</p>
+          <p>
+            <i>
+              {prompt}
+            </i>
+          </p>
         </div>
       </div>
     );
@@ -81,7 +85,7 @@ export default function NeedsResultPage() {
     <>
       <div className="max-w-7xl mx-auto p-6 space-y-8">
         <div className="bg-white rounded-lg shadow p-6">
-          <h1 className="text-2xl font-bold mb-4">Resultados para: "{query}"</h1>
+          <h1 className="text-2xl font-bold mb-4">Resultados para: "{prompt}"</h1>
           <div className="prose max-w-none">
             <p>{results.mainSuggestion?.explanation}</p>
           </div>
