@@ -11,8 +11,7 @@ export default async ({ req, log, res, error }) => {
     try {
       const integration = await getIntegration(req, log);
       const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
-      htmlResponse = `<html><body><h1>Integration successfully retrieved and stored.</h1><div>${integrationDocument}</div><div>${integrationsDetailsDocument}</div></body></html>`
-
+      htmlResponse = `<html><body><h1>Integration successfully retrieved and stored.</h1><div>${integrationDocument}</div><div>${integrationsDetailsDocument}</div></body></html>`;
     }
     catch (err) {
       return res.json({ ok: false, error: err }, 400);

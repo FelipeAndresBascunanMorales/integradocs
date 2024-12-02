@@ -9,14 +9,15 @@ import { Integration } from '../types/integration';
 import IntegrationCardV2 from '../components/IntegrationCard_v2';
 import { Switch } from '../components/Switch';
 import { Link } from 'react-router-dom';
+import NeedsSearch from '../components/NeedsSearch';
 
 export function Home() {
   const { query, applyFilters, setQuery } = useSearch();
   const { integrations } = useIntegrations();
   const [renderSearchResult, setRenderSearchresult] = useState(false);
   const [filteredIntegrations, setFilteredIntegrations] = useState<Integration[]>([]);
+  const [SearchWithAi, setSearchWithAi] = useState(false);
 
-  const [isEnabled, setIsEnabled] = useState(true);
 
   useEffect(() => {
     setQuery('');
@@ -41,17 +42,45 @@ export function Home() {
         <p className="max-w-2xl mx-auto text-lg text-gray-600">
           Encuentra guías detalladas para integrar servicios y APIs en tu negocio
         </p>
-        <SearchBar className="max-w-2xl mx-auto" />
+
         <div className='flex justify-center space-x-1   place-content-center'>
-          <Switch checked={isEnabled} onChange={setIsEnabled} />
+          <Switch checked={SearchWithAi} onChange={setSearchWithAi} />
           <span className='font-semibold'>Búsqueda con IA</span><Sparkles className=' text-fuchsia-600 p-1 mr-1' />
         </div>
+
+
+        <div className="h-44 relative">
+          <div 
+            className={`absolute w-full transition-all duration-700 transform ${
+              SearchWithAi 
+                ? 'opacity-100 translate-x-0' 
+                : `opacity-0 translate-x-20 pointer-events-none`
+            }`}
+          >
+            <NeedsSearch />
+          </div>
+
+          <div 
+            className={`absolute w-full transition-all duration-700 transform ${
+              SearchWithAi 
+                ? 'opacity-0 -translate-x-20 pointer-events-none' 
+                : 'opacity-100 translate-x-0'
+            }`}
+          >
+            <div className='my-auto text-center space-y-4'>
+              <h2 className="text-2xl font-bold">¿Buscas un integración?</h2>
+              <p className='text-gray-600'>Encuéntrala aquí o activa la búsqueda con AI</p>
+              <SearchBar className="max-w-2xl mx-auto" />
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div className=' min-h-64'>
         <div className={`transition-all duration-1000 ${renderSearchResult ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-1/4'}`}>
           {(renderSearchResult) && (
-            <div className={`min-h-60 transition-all duration-1000`}>
+            <div className={`transition-all duration-1000`}>
               <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 {filteredIntegrations.map((integration) => (
                   <IntegrationCardV2 integration={integration} key={integration.$id} />
@@ -61,6 +90,12 @@ export function Home() {
             <div className="flex justify-end">
               <Link className='text-blue-500 hover:underline' to={'/all'}>ver todo</Link>
             </div>}
+            {(filteredIntegrations.length === 0) && (
+                <div className='text-center py-6'>
+                  <h4 className="text-2xl font-bold text-gray-900">Integración no encontrada</h4>
+                  <p className="mt-2 text-gray-600">Activa la búsqueda con IA.</p>
+                </div>
+              )}
             </div>
           )}
 

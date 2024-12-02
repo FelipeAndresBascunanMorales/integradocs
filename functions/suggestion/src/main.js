@@ -1,24 +1,26 @@
-import { Client, Users } from 'node-appwrite';
+// import { Client, Users } from 'node-appwrite';
+import { askForIntegrationSuggestion } from './chatGPT.js';
 
-// This Appwrite function will be executed every time your function is triggered
 export default async ({ req, res, log, error }) => {
-  // You can use the Appwrite SDK to interact with other services
-  // For this example, we're using the Users service
-  const client = new Client()
-    .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
-    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-    .setKey(req.headers['x-appwrite-key'] ?? '');
-  const users = new Users(client);
 
-  try {
-    const response = await users.list();
-    // Log messages and errors to the Appwrite Console
-    // These logs won't be seen by your end users
-    log(`Total users: ${response.total}`);
-  } catch(err) {
-    error("Could not list users: " + err.message);
+  // const client = new Client()
+  //   .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
+  //   .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
+  //   .setKey(req.headers['x-appwrite-key'] ?? '');
+
+  // const users = new Users(client);
+
+  if (req.method === 'GET' && req.query?.prompt) {
+    try {
+      // return res.json({ ok: true, response: `I received your prompt ${req.query.prompt}` }, 200);
+      const response = await getAssistantResponse(req, log);
+      return res.json({ ok: true, response }, 200);
+    }
+    catch (err) {
+      return res.json({ ok: false, error: err }, 400);
+    }
   }
-
+  
   // The req object contains the request data
   if (req.path === "/ping") {
     // Use res object to respond with text(), json(), or binary()
@@ -27,9 +29,14 @@ export default async ({ req, res, log, error }) => {
   }
 
   return res.json({
-    motto: "Build like a team of hundreds_",
-    learn: "https://appwrite.io/docs",
-    connect: "https://appwrite.io/discord",
-    getInspired: "https://builtwith.appwrite.io",
+    maybe: "you should provide a prompt",
   });
+
+  async function getAssistantResponse(req, log) {
+    const param = req.query?.prompt;
+    log("before the call to askForIntegrationSuggestion");
+    const chatGptResponse = await askForIntegrationSuggestion(param, log);
+    return chatGptResponse;
+  }
+
 };

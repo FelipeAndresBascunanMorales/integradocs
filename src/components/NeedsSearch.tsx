@@ -6,6 +6,7 @@ export default function NeedsSearch() {
   const [searchInput, setSearchInput] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const navigate = useNavigate();
+  const SPELL = '✨'
 
   // This will handle both direct searches and AI-powered suggestions
   const handleSearch = async (input: string) => {
@@ -32,7 +33,7 @@ export default function NeedsSearch() {
           <input
             type="text"
             className="w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-indigo-500"
-            placeholder="Por ejemplo: Necesito controlar mi inventario..."
+            placeholder={`${ SPELL }Por ejemplo: Necesito controlar mi inventario...`}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch(searchInput)}
@@ -49,16 +50,16 @@ export default function NeedsSearch() {
           </button>
         </div>
 
-        <div className="flex gap-2 justify-center text-sm text-gray-500">
+        <div className="flex gap-2 justify-center items-center text-sm text-gray-500">
           Búsquedas populares:
           <button 
-            className="hover:text-indigo-600"
+            className="hover:text-indigo-600 text-sm font-semibold rounded-full border py-1 px-4 border-gray-300 hover:border-indigo-600"
             onClick={() => setSearchInput("Necesito procesar pagos online")}
           >
             procesar pagos
           </button>
           <button 
-            className="hover:text-indigo-600"
+            className="hover:text-indigo-600 text-sm font-semibold rounded-full border py-1 px-4 border-gray-300 hover:border-indigo-600"
             onClick={() => setSearchInput("Quiero gestionar citas médicas")}
           >
             gestionar citas
