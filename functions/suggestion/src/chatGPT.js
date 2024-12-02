@@ -1,5 +1,4 @@
 import OpenAI from 'openai';
-import { integrationSchema, integrationListSchema } from './models/integrationSchema.js';
 
 const openai = new OpenAI();
 
