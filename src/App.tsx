@@ -10,6 +10,7 @@ import { Integration } from './pages/Integration'
 import { BrowserRouter as Router, Routes, Route }  from 'react-router-dom'
 import Search from './pages/All'
 import OurSuggestion from './pages/ourSuggestion'
+import Specialists from './pages/Specialists'
 
 function App() {
   const HEART = '❤'
@@ -28,6 +29,7 @@ function App() {
               <Route path='/admin' element={<Admin />} />
               <Route path={'/all'} element={<Search />} />
               <Route path={'/oursuggestion/'} element={<OurSuggestion />} />
+              <Route path="/specialists" element={<Specialists />} />
             </Routes>
           </Layout>
         </SearchProvider>

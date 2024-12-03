@@ -144,6 +144,17 @@ export async function getSuggestion(integrationName: string) {
   return parsed
 }
 
+export async function submitContactForm(formData: { name: string; email: string; message: string; company: string; phone: string; }) {
+  const response = await database.createDocument(
+    import.meta.env.VITE_DATABASE_ID_VEELOTU,
+    import.meta.env.VITE_COLLECTION_ID_CONTACTS,
+    ID.unique(),
+    formData,
+    []
+  );
+  return response
+}
+
 export default function appwriteProvider() {
   return {
     getIntegrations,

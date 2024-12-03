@@ -1,9 +1,9 @@
 import { useEffect, useState, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import IntegrationCardV2 from "../components/IntegrationCard_v2";
 import { getSuggestion, ParamsResults } from "../context/appwriteProvider";
 import { useIntegrations } from "../context/integrationsData";
-import { Blocks, Check, Key, Lightbulb } from 'lucide-react'
+import { Blocks, Check, Lightbulb } from 'lucide-react'
+import { parameterize } from "../lib/utils";
 
 const fakeResults = {
   "mainSuggestion": {
@@ -68,6 +68,7 @@ export default function OurSuggestion() {
   const prompt = searchParams.get('prompt') || '';
   const [isLoading, setIsLoading] = useState(true);
   const showOldVersion = false;
+  const { integrations } = useIntegrations();
 
   const [results, setResults] = useState<ParamsResults>({
     mainSuggestion: {
@@ -100,8 +101,8 @@ export default function OurSuggestion() {
       setIsLoading(true);
       try {
         const completion = await getSuggestion(prompt) || fakeResults; 
-
         setResults(completion);
+        
       } catch (error) {
         console.error('Error getting suggestions:', error);
       } finally {
@@ -129,7 +130,8 @@ export default function OurSuggestion() {
               {category.relatedIntegrations.map((integration) => (
                 <div className="group flex flex-col h-full text-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
                   <Link
-                    to={`/integration/${integration.title}`}
+                    to={`/integration/${parameterize(integration.title)}`}
+                    state={ (integrations.find((i) => i.name == integration.title)) }
                     className=""
                   >
                   <div className="flex-1">
@@ -177,7 +179,7 @@ export default function OurSuggestion() {
                       </div>
                     )}
                   <Link
-                    to={`/integration/${integration.title}`}
+                    to={`/integration/${parameterize(integration.title)}`}
                     className="place-self-end mt-auto pt-4 pb-1 text-indigo-600 font-medium hover:text-indigo-500"
                   >
                     ver en detalle

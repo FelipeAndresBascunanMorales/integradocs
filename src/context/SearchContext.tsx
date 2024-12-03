@@ -6,14 +6,14 @@ type SearchContextType = {
   setQuery: (query: string) => void;
   filters: {
     complexity: string[];
-    cost: string[];
-    developerRequired: boolean | null;
+    pricing: string[];
+    requireDev: boolean | null;
   };
   setFilters: React.Dispatch<
     React.SetStateAction<{
       complexity: string[];
-      cost: string[];
-      developerRequired: boolean | null;
+      pricing: string[];
+      requireDev: boolean | null;
     }>
   >;
   applyFilters: (integrations: Integration[]) => Integration[];
@@ -24,8 +24,8 @@ const SearchContext = React.createContext<SearchContextType>({
   setQuery: () => {},
   filters: {
     complexity: [],
-    cost: [],
-    developerRequired: null,
+    pricing: [],
+    requireDev: null,
   },
   setFilters: () => {},
   applyFilters: () => [],
@@ -35,8 +35,8 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
   const [query, setQuery] = React.useState('');
   const [filters, setFilters] = React.useState({
     complexity: [],
-    cost: [],
-    developerRequired: null,
+    pricing: [],
+    requireDev: null,
   } as SearchContextType['filters']);
 
   function applyFilters(integrations: Integration[]) {
@@ -47,13 +47,13 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
       const matchesComplexity = filters.complexity.length === 0 ||
         e.complexity && filters.complexity.includes(e.complexity);
       
-      const matchesCost = filters.cost.length === 0 ||
-        filters.cost.includes(e.cost);
+      const matchespricing = filters.pricing.length === 0 ||
+        filters.pricing.includes(e.pricing?.[0] || 'Gratis');
       
-      const matchesDeveloper = filters.developerRequired === null ||
-        filters.developerRequired === e.developerRequired;
+      const matchesDeveloper = filters.requireDev === null ||
+        filters.requireDev === e.requireDev;
 
-      return matchesQuery && matchesComplexity && matchesCost && matchesDeveloper;
+      return matchesQuery && matchesComplexity && matchespricing && matchesDeveloper;
     });
   }
 

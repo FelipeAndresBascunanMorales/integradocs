@@ -3,10 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 
 const navigation = [
   { name: 'Inicio', href: '/' },
-  { name: 'E-commerce', href: '/industry/ecommerce' },
-  { name: 'Salud', href: '/industry/healthcare' },
-  { name: 'Marketing', href: '/industry/marketing' },
-  { name: 'Especialistas', href: '/contactPage' },
+  { name: 'Ver Todo', href: '/all' },
+  { name: 'Especialistas', href: '/specialists' },
   { name: 'Admin', href: '/admin' },
 ];
 

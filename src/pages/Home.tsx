@@ -106,7 +106,7 @@ export function Home() {
               {[
                 {
                   icon: Zap,
-                  title: 'Fácil de Implementar',
+                  title: 'Te ayudamos a Implementar',
                   description: 'Guías paso a paso para cada integración',
                 },
                 {
