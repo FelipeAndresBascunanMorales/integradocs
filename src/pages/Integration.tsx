@@ -25,8 +25,8 @@ export function Integration() {
       <div className="text-center py-12">
         <h1 className="text-2xl font-bold text-gray-900">Integración no encontrada</h1>
         <p className="mt-2 text-gray-600">La integración que buscas no existe.</p>
-        <Link to="/" className="mt-4 inline-block text-indigo-600 hover:text-indigo-500">
-          Volver al inicio
+        <Link to={-1 as unknown as string} className="mt-4 inline-block text-indigo-600 hover:text-indigo-500">
+          Volver
         </Link>
       </div>
     );

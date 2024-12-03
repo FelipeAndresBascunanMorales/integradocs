@@ -6,7 +6,6 @@ export default async ({ req, res, log, error }) => {
     log("the prompt in the function", req.query?.prompt);
     try {
       const response = await getAssistantResponse(req, log);
-      log("response!!!", response);
       return res.json({ ok: true, data: response }, 200);
     }
     catch (err) {

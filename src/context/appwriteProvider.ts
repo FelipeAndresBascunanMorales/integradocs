@@ -7,6 +7,27 @@ const client = new Client()
 
 const database = new Databases(client);
 
+export interface ParamsResults {
+  mainSuggestion: {
+    explanation: string;
+  } | null;
+  categories: {
+    name: string;
+    relatedIntegrations: {
+      title: string;
+      description: string;
+      benefits: string[];
+      insights: string[];
+    }[];
+  }[]
+  alternatives: {
+    title: string;
+    description: string;
+    category: string;
+  }[];
+};
+
+
 export type DocumentList = Models.DocumentList<Document>;
 export type Document = Models.Document;
 
@@ -117,8 +138,10 @@ export async function getSuggestion(integrationName: string) {
     ExecutionMethod.GET, // method (optional)
     {}, // headers (optional)
   );
-  console.log("the execution response in appwriteProvider:", response);
-  return response
+  const parsedResponse = await JSON.parse(response.responseBody)
+  const parsed = await JSON.parse(parsedResponse.data) as ParamsResults;
+
+  return parsed
 }
 
 export default function appwriteProvider() {
