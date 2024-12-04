@@ -79,7 +79,7 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
                   {integration.complexity}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">
-                  {integration.cost}
+                  {integration.pricing}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">
                   {integration.industry}

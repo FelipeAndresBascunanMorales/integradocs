@@ -209,13 +209,64 @@
                     "twoWayKey": "672d549c00296f4710bd",
                     "onDelete": "cascade",
                     "side": "parent"
+                },
+                {
+                    "key": "categoryDetails",
+                    "type": "relationship",
+                    "required": false,
+                    "array": false,
+                    "relatedCollection": "6750cfce00261078cbfe",
+                    "relationType": "oneToMany",
+                    "twoWay": true,
+                    "twoWayKey": "integrations",
+                    "onDelete": "setNull",
+                    "side": "child"
                 }
             ],
-            "indexes": []
+            "indexes": [
+                {
+                    "key": "index_by_category",
+                    "type": "fulltext",
+                    "status": "available",
+                    "attributes": [
+                        "category"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "index_by_industries",
+                    "type": "fulltext",
+                    "status": "available",
+                    "attributes": [
+                        "industry"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "index_3_test",
+                    "type": "key",
+                    "status": "available",
+                    "attributes": [
+                        "industry"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                }
+            ]
         },
         {
             "$id": "672bbff6003166f511a0",
-            "$permissions": [],
+            "$permissions": [
+                "create(\"any\")",
+                "read(\"any\")",
+                "update(\"any\")",
+                "delete(\"any\")"
+            ],
             "databaseId": "672a25f1001d5e886426",
             "name": "IntegrationDetails",
             "enabled": true,
@@ -234,7 +285,7 @@
                     "type": "string",
                     "required": false,
                     "array": true,
-                    "size": 50,
+                    "size": 150,
                     "default": null
                 },
                 {
@@ -242,7 +293,7 @@
                     "type": "string",
                     "required": false,
                     "array": true,
-                    "size": 50,
+                    "size": 150,
                     "default": null
                 },
                 {
@@ -260,6 +311,146 @@
                     "array": true,
                     "size": 250,
                     "default": null
+                },
+                {
+                    "key": "supportedPlatforms",
+                    "type": "string",
+                    "required": false,
+                    "array": true,
+                    "size": 45,
+                    "default": null
+                },
+                {
+                    "key": "supportedTechnologies",
+                    "type": "string",
+                    "required": false,
+                    "array": true,
+                    "size": 45,
+                    "default": null
+                }
+            ],
+            "indexes": []
+        },
+        {
+            "$id": "674e6a940027993c8a9c",
+            "$permissions": [
+                "create(\"any\")",
+                "read(\"any\")",
+                "update(\"any\")",
+                "delete(\"any\")"
+            ],
+            "databaseId": "672a25f1001d5e886426",
+            "name": "Contacts",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "name",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 150,
+                    "default": null
+                },
+                {
+                    "key": "email",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "format": "email",
+                    "default": null
+                },
+                {
+                    "key": "message",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 500,
+                    "default": null
+                },
+                {
+                    "key": "company",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 150,
+                    "default": null
+                },
+                {
+                    "key": "phone",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 12,
+                    "default": null
+                }
+            ],
+            "indexes": []
+        },
+        {
+            "$id": "6750cfce00261078cbfe",
+            "$permissions": [
+                "create(\"any\")",
+                "read(\"any\")",
+                "update(\"any\")",
+                "delete(\"any\")"
+            ],
+            "databaseId": "672a25f1001d5e886426",
+            "name": "Categories",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "name",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 100,
+                    "default": ""
+                },
+                {
+                    "key": "description",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 398,
+                    "default": null
+                },
+                {
+                    "key": "icon",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 40,
+                    "default": null
+                },
+                {
+                    "key": "industry",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 99,
+                    "default": null
+                },
+                {
+                    "key": "commonNeeds",
+                    "type": "string",
+                    "required": false,
+                    "array": true,
+                    "size": 150,
+                    "default": null
+                },
+                {
+                    "key": "integrations",
+                    "type": "relationship",
+                    "required": false,
+                    "array": false,
+                    "relatedCollection": "672a2605003de36effb1",
+                    "relationType": "oneToMany",
+                    "twoWay": true,
+                    "twoWayKey": "categoryDetails",
+                    "onDelete": "setNull",
+                    "side": "parent"
                 }
             ],
             "indexes": []

@@ -40,7 +40,7 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
   const [generating, setGenerating] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const newCategory = 'Agregar Categoría';
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>(newCategory);
   const [formData, setFormData] = useState<NewIntegration>({
     name: '',
     description: '',
@@ -228,7 +228,7 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
             <label className="block text-sm font-medium mb-1">Categoría</label>
             <input
               type="text"
-              value={formData.category || ''}
+              value={formData.category || newCategory}
               onChange={e => setFormData({ ...formData, category: e.target.value })}
               className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition hidden"
               maxLength={50}
