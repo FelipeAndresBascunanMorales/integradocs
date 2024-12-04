@@ -1,23 +1,35 @@
 
 import { useNavigate, useParams } from 'react-router-dom';
-import { CATEGORIES } from '../types/category';
-import { useIntegrations } from '../context/integrationsData';
+import appwriteProvider from '../context/appwriteProvider'
 import { useEffect, useMemo } from 'react';
 import IntegrationCardV2 from '../components/IntegrationCard_v2';
 
 const CategoryPage = () => {  
-  const { id = 'unknown' } = useParams<{ id: string }>();
-  const { integrations } = useIntegrations();
+  const { name = 'unknown' } = useParams<{ name: string }>();
   const navigate = useNavigate();
-  const category = CATEGORIES.find((category) => category.id === id);
-  const filteredIntegrations = useMemo(() => {
-    return integrations.filter((integration) => integration.category?.toLowerCase() === category?.id);
-  }, [integrations, category?.id]);
+  const { getIntegrationsByCategory, getCategory } = appwriteProvider();
 
-  useEffect(() => {
-    document.title = `Integrations - ${category?.name}`;
+  const filteredIntegrations = useMemo(() => {
+    async function fetchIntegrations() {
+      return await getIntegrationsByCategory(name)
+    }
+    fetchIntegrations();
+  }, [name, getIntegrationsByCategory]);
+
+  const category = useMemo(() => {
+    async function fetchCategory() {
+      return await getCategory(name);
+    }
+    fetchCategory();
+  }, [name, getCategory]);
+    
+    useEffect(() => {
+    async function fetchData() {
+      document.title = `Integrations - ${(await category)?.name}`;
+    }
+    fetchData();
   }
-  , [category?.name]);
+  , [name, category]);
 
   useEffect(() => {
     if(!category) {

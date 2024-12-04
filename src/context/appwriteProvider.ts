@@ -1,5 +1,6 @@
 import { Client, Databases, Query, Models, ID, Functions, ExecutionMethod} from 'appwrite';
 import { Integration, NewIntegration } from '../types/integration';
+import { Category } from '../types/category';
 
 const client = new Client()
 .setEndpoint("https://cloud.appwrite.io/v1")  
@@ -47,6 +48,15 @@ export async function getCategories() {
     []
   );
   return response
+}
+
+export async function getCategory(category: string) {
+  const response = await database.listDocuments(
+    import.meta.env.VITE_DATABASE_ID_VEELOTU,
+    import.meta.env.VITE_COLLECTION_ID_CATEGORIES,
+    [Query.search("name", category)]
+  );
+  return response.documents[0] as Category
 }
 
 async function getIntegrationsByCategory(category: string) {
@@ -172,6 +182,7 @@ export default function appwriteProvider() {
     saveIntegration,
     getIntegrationCompletion,
     getCategories,
+    getCategory,
   }
 }
 

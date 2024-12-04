@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
-import { latestIntegrations } from './appwriteProvider.js'
+import { getCategories, latestIntegrations } from './appwriteProvider.js'
 import { Integration } from '../types/integration';
+import { Category } from '../types/category.js';
 
 // export type Integration = Document
 
@@ -13,6 +14,8 @@ interface IntegrationsContextType {
   addIntegration: (integration: Integration) => void;
   integrationsByIndustry: IntegrationsByIndustry;
   addIntegrationByIndustry: (industry: string, integration: Integration[]) => void;
+  categories: Category[];
+  addCategories: (category: Category[]) => void;
 }
 
 const initialIntegrations: Integration[] = latestIntegrations;
@@ -22,6 +25,7 @@ const IntegrationsContext = createContext<IntegrationsContextType | undefined>(u
 export const IntegrationsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [integrations, setIntegrations] = useState<Integration[]>(initialIntegrations);
   const [integrationsByIndustry, setIntegrationsByIndustry] = useState<IntegrationsByIndustry>({});
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const addIntegration = (integration: Integration) => {
     setIntegrations([...integrations, integration]);
@@ -31,8 +35,12 @@ export const IntegrationsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     setIntegrationsByIndustry({ ...integrationsByIndustry, [industry]: integration });
   };
 
+  const addCategories = (category: Category[]) => {
+    setCategories(category);
+  };
+
   return (
-    <IntegrationsContext.Provider value={{ integrations, addIntegration, integrationsByIndustry, addIntegrationByIndustry }}>
+    <IntegrationsContext.Provider value={{ integrations, addIntegration, integrationsByIndustry, addIntegrationByIndustry, addCategories, categories }}>
       {children}
     </IntegrationsContext.Provider>
   );
