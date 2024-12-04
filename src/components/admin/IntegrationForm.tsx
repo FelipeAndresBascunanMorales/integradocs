@@ -3,7 +3,8 @@ import { useIntegrations } from '../../context/integrationsAdmin';
 // import { Integration } from '../../context/integrationsData';
 import { Integration, NewIntegration, UpdateIntegration } from '../../types/integration';
 import { getIntegrationCompletion } from '../../context/appwriteProvider';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import { Category } from '../../types/category';
 
 // type Integration = {
 //   $id?: string;
@@ -35,12 +36,23 @@ type IntegrationFormProps = {
 };
 
 export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFormProps) {
-  const { addIntegration, updateIntegration } = useIntegrations();
+  const { addIntegration, updateIntegration, getCategories } = useIntegrations();
   const [generating, setGenerating] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const newCategory = 'Agregar Categoría';
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [formData, setFormData] = useState<NewIntegration>({
     name: '',
     description: '',
     ...integration,
+    categoryDetails: {
+      name: '',
+      description: '',
+      icon: '',
+      industry: '',
+      commonNeeds: [],
+      ...integration?.categoryDetails
+    },
     integrationDetails: {
       fullDescription: '',
       pros: [],
@@ -51,12 +63,20 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
     }
   });
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categories = await getCategories();
+      setCategories(categories.documents as Category[]);
+    }
+    fetchCategories();
+  }, []);
+
 
 
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.description) {
       alert('Por favor completa los campos requeridos');
       return;
@@ -67,7 +87,7 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
     } else {
       addIntegration(formData);
     }
-    
+
     onSave();
   };
 
@@ -80,7 +100,7 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
         return;
       }
       let integration
-      
+
       try {
         integration = JSON.parse(response.responseBody)?.integration;
       }
@@ -135,9 +155,9 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
             />
             <button type='button' className='flex border p-2 mt-1 disabled:opacity-50 disabled:cursor-not-allowed' disabled={formData.name.length < 3 || generating}
               onClick={(e) => { e.preventDefault(); handleChatGPTRequest(formData.name) }}>
-              {generating ? (<><Lamp />generating...</>) : (<><Sparkles className=' text-fuchsia-600 p-1 mr-1'/> Completar con IA</>)}
+              {generating ? (<><Lamp />generating...</>) : (<><Sparkles className=' text-fuchsia-600 p-1 mr-1' /> Completar con IA</>)}
             </button>
-            
+
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Ícono URL</label>
@@ -210,11 +230,144 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
               type="text"
               value={formData.category || ''}
               onChange={e => setFormData({ ...formData, category: e.target.value })}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition hidden"
               maxLength={50}
             />
+            <select
+              value={selectedCategory}
+              onChange={e => {
+                console.log(e.target.value);
+                console.log(newCategory);
+                console.log(e.target.value === newCategory);
+                if (e.target.value === newCategory || e.target.value === '') {
+                  setFormData({
+                    ...formData,
+                    categoryDetails: {
+                      name: '',
+                      description: '',
+                      icon: '',
+                      industry: '',
+                      commonNeeds: []
+                    }
+                  });
+                } else {
+                  const selectedCategory = categories.find(cat => cat.name === e.target.value);
+                  if (selectedCategory) {
+                    setFormData({
+                      ...formData,
+                      categoryDetails: {
+                        name: selectedCategory.name,
+                        description: selectedCategory.description,
+                        icon: selectedCategory.icon.displayName as string,
+                        industry: selectedCategory.industry,
+                        commonNeeds: selectedCategory.commonNeeds || []
+                      }
+                    });
+                  }
+                }
+                setSelectedCategory(e.target.value);
+              }}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            >
+              {
+                categories.map(category => (
+                  <option key={category.$id} value={category.name}>{category.name}</option>
+                ))
+              }
+              <option key={newCategory} className=' font-semibold' value={'Agregar Categoría'}>{'+ Agregar Categoría'}</option>
+            </select>
+
           </div>
         </div>
+
+        {/* Category Details */}
+        {selectedCategory === newCategory && (
+          <>
+            <h3 className="text-lg font-medium">Detalles de Categoría</h3>
+            <div className="grid grid-rows-3 grid-flow-col-dense gap-6 border-t px-16 py-10">
+              <div className='row-span-1'>
+                <label className="block text-sm font-medium mb-1">Nombre</label>
+                <input
+                  type="text"
+                  value={formData.categoryDetails?.name || ''}
+                  onChange={e => setFormData({
+                    ...formData,
+                    categoryDetails: {
+                      ...formData.categoryDetails,
+                      name: e.target.value
+                    }
+                  })}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                />
+              </div>
+              <div className='row-span-3'>
+                <label className="block text-sm font-medium mb-1">Descripción</label>
+                <textarea
+                  value={formData.categoryDetails?.description || ''}
+                  onChange={e => setFormData({
+                    ...formData,
+                    categoryDetails: {
+                      ...formData.categoryDetails,
+                      description: e.target.value
+                    }
+                  })}
+                  rows={3}
+                  maxLength={200}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                />
+              </div>
+              <div className='hidden'>
+                <label className="block text-sm font-medium mb-1">Ícono Name</label>
+                <input
+                  type="url"
+                  value={formData.categoryDetails?.icon || 'Factory'}
+                  onChange={e => setFormData({
+                    ...formData,
+                    categoryDetails: {
+                      ...formData.categoryDetails,
+                      icon: e.target.value
+                    }
+                  })}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                />
+              </div>
+              <div className='row-span-1'>
+                <label className="block text-sm font-medium mb-1">Industria</label>
+                <input
+                  type="text"
+                  value={formData.categoryDetails?.industry || ''}
+                  onChange={e => setFormData({
+                    ...formData,
+                    categoryDetails: {
+                      ...formData.categoryDetails,
+                      industry: e.target.value
+                    }
+                  })}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Necesidades Comunes (separadas por coma)</label>
+                <input
+                  type="text"
+                  value={formData.categoryDetails?.commonNeeds?.join(', ') || ''}
+                  onChange={e => setFormData({
+                    ...formData,
+                    categoryDetails: {
+                      ...formData.categoryDetails,
+                      commonNeeds: e.target.value.split(',').map(item => item.trim()).filter(Boolean)
+                    }
+                  })}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                  placeholder="necesidad1, necesidad2"
+                />
+              </div>
+            </div>
+            <div className='border-t py-4'>
+
+            </div>
+          </>
+        )}
 
         {/* Tags and Pricing */}
         <div className="grid grid-cols-2 gap-6">
@@ -227,7 +380,9 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
               className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               placeholder="tag1, tag2, tag3"
             />
+            
           </div>
+
           <div>
             <label className="block text-sm font-medium mb-1">Pricing (separados por coma)</label>
             <input
@@ -269,7 +424,7 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
         {/* Integration Details */}
         <div className="space-y-6 border-t pt-6">
           <h3 className="text-lg font-medium">Detalles de Integración</h3>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Descripción Completa</label>
             <textarea

@@ -40,6 +40,15 @@ export async function getIntegrations() {
   return response
 }
 
+export async function getCategories() {
+  const response = await database.listDocuments(
+    import.meta.env.VITE_DATABASE_ID_VEELOTU,
+    import.meta.env.VITE_COLLECTION_ID_CATEGORIES,
+    []
+  );
+  return response
+}
+
 async function getIntegrationsByCategory(category: string) {
   const response = await database.listDocuments(
     import.meta.env.VITE_DATABASE_ID_VEELOTU,
@@ -162,6 +171,7 @@ export default function appwriteProvider() {
     getIntegrationsByIndustry,
     saveIntegration,
     getIntegrationCompletion,
+    getCategories,
   }
 }
 

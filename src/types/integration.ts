@@ -14,6 +14,13 @@ export type IntegrationData = {
   tags?: string[];
   pricing?: string[];
   category?: string;
+  categoryDetails?: {
+    name?: string;
+    description?: string;
+    icon?: string;
+    industry?: string;
+    commonNeeds?: string[];
+  };
   industry?: string;
   icon?: string;
   integrationDetails?: {

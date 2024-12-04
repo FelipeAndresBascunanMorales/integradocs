@@ -42,7 +42,7 @@ export default async ({ req, log, res, error }) => {
 
       log("integrationsList");
       await Promise.all(integrationsList.map(async integration => {
-        const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
+        const { integrationDocument, integrationsDetailsDocument } = await writeToCollection(integration);
         log("integrations", integrationDocument);
         log("integrationsDetails", integrationsDetailsDocument);
       }));
@@ -51,8 +51,7 @@ export default async ({ req, log, res, error }) => {
       error("something wroooong!", err);
       return res.json({ ok: false, error: err }, 400);
     }
-
-    return res.json({ ok: false, error: 'Failed to query model.' }, 500);
+    return res.json({ ok: true }, 201);
   };
   return res.json({ ok: true }, 201);
 }

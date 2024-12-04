@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const navigation = [
-  { name: 'Inicio', href: '/' },
   { name: 'Ver Todo', href: '/all' },
   { name: 'Especialistas', href: '/specialists' },
   { name: 'Admin', href: '/admin' },

@@ -1,10 +1,12 @@
 import  { useCallback, useState } from 'react';
 import {Integration, NewIntegration, UpdateIntegration } from '../types/integration';
 import appwriteProvider from './appwriteProvider.js';
+import { Category } from '../types/category.js';
 
 
 export function useIntegrations() {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const addIntegration = useCallback((integration: NewIntegration) => {
     appwriteProvider().saveIntegration(integration);
@@ -28,11 +30,18 @@ export function useIntegrations() {
     return response;
   }, []);
 
+  const getCategories = useCallback(async () => {
+    const response = await appwriteProvider().getCategories();
+    setCategories(response.documents as Category[]);
+    return response;
+  }, []);
+
 
   return {
     getIntegrations,
     addIntegration,
     updateIntegration,
     deleteIntegration,
+    getCategories,
   };
 }

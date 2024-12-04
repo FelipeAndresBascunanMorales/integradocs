@@ -76,7 +76,7 @@ export function FilterPanel({className = ''}: {className?: string}) {
 
       {/* pricing Section */}
       <div className="space-y-4 mb-8">
-        <h3 className="text-sm font-medium text-gray-900">pricingo</h3>
+        <h3 className="text-sm font-medium text-gray-900">pricing</h3>
         {pricingTypes.map(({ value, label, icon: Icon }) => (
           <label key={value} className="flex items-center gap-3 group cursor-pointer">
             <div className="flex items-center h-5">

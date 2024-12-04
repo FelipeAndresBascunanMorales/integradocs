@@ -9,11 +9,11 @@ GET http://localhost:3000/?prompt=samsung
 
 ###
 
-POST http://localhost:3000/ HTTP/1.1
+POST https://672c092a9d81ee5802fd.appwrite.global/ HTTP/1.1
 Content-Type: application/json
 
 {
-  "integrations": "i need 2 integrations Onepay and BancoEstado"
+  "integrations": "Santander Chile, BBVA Chile, BancoEstado, Itaú Corpbanca, Scotiabank Chile, Bci, Banco de Chile, Banco Security, Banco Internacional, Banco Falabella, CrediChile, Getnet"
 }
 
 ###
