@@ -25,7 +25,7 @@ function App() {
               <Route path="/industry/:id" element={<Industry />} />
               <Route path="/integration/:id" element={<Integration />} />
               <Route path={`/${HEART}`} element={<Home />} />
-              <Route path={`/category/:id`} element={<Category />} />
+              <Route path={`/category/:name`} element={<Category />} />
               <Route path='/admin' element={<Admin />} />
               <Route path={'/all'} element={<Search />} />
               <Route path={'/oursuggestion/'} element={<OurSuggestion />} />

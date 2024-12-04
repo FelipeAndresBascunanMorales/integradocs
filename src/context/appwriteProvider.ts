@@ -115,23 +115,47 @@ const responseLatestIntegrations = await database.listDocuments(
 export const latestIntegrations = responseLatestIntegrations.documents as Integration[];
 
 export async function saveIntegration(integration: NewIntegration) {
-  const innerID = ID.unique();
-  const responseInnerCollection = await database.createDocument(
+  const integrationDetailsID = ID.unique();
+  const categoryDetailsID = ID.unique();
+  const integrationID = ID.unique();
+
+  const responseIntegrationDetails = await database.createDocument(
     import.meta.env.VITE_DATABASE_ID_VEELOTU,
     import.meta.env.VITE_COLLECTION_ID_INTEGRATION_DETAILS,
-    innerID,
+    integrationDetailsID,
     integration.integrationDetails ?? {},
     []
   );
 
-  const response = await database.createDocument(
+  const responseCategoryDetails = await database.createDocument(
     import.meta.env.VITE_DATABASE_ID_VEELOTU,
-    import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
-    ID.unique(),
-    {...integration, integrationDetails: innerID},
+    import.meta.env.VITE_COLLECTION_ID_CATEGORIES,
+    categoryDetailsID,
+    integration.categoryDetails ?? {},
     []
   );
-  return {response, responseInnerCollection}
+
+  const responseIntegration = await database.createDocument(
+    import.meta.env.VITE_DATABASE_ID_VEELOTU,
+    import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
+    integrationID,
+    {...integration, integrationDetails: integrationDetailsID, categoryDetails: categoryDetailsID},
+    []
+  );
+
+  // const updatedCategory = await database.updateDocument(
+  //   import.meta.env.VITE_DATABASE_ID_VEELOTU,
+  //   import.meta.env.VITE_COLLECTION_ID_CATEGORIES,
+  //   categoryDetailsID,
+  //   {
+  //     relatedIntegrations: [
+  //       ...integration.categoryDetails?.relatedIntegrations ?? [],
+  //       {title: integration.name, description: integration.description, benefits: [], insights: []}
+  //     ]
+  //   }
+  // );
+  
+  return {responseIntegration, responseIntegrationDetails}
 }
 
 const functions = new Functions(client);

@@ -316,7 +316,7 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
                   className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                 />
               </div>
-              <div className='hidden'>
+              {/* <div className='hidden'>
                 <label className="block text-sm font-medium mb-1">Ícono Name</label>
                 <input
                   type="url"
@@ -330,7 +330,7 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
                   })}
                   className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                 />
-              </div>
+              </div> */}
               <div className='row-span-1'>
                 <label className="block text-sm font-medium mb-1">Industria</label>
                 <input

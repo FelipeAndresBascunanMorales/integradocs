@@ -17,7 +17,8 @@ const integrationSchema = {
         "category",
         "industry",
         "icon",
-        "integrationDetails"
+        "integrationDetails",
+        "categoryDetails"
       ],
       "properties": {
         "icon": {
@@ -80,6 +81,35 @@ const integrationSchema = {
         "complexityLevel": {
           "type": "integer",
           "description": "The complexity level ranging from 0 to 100."
+        },
+        "categoryDetails": {
+          "type": "object",
+          "description": "the parent category.",
+          "required": [
+            "name",
+            "description",
+            "icon",
+            "industry",
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the category."
+            },
+            "description": {
+              "type": "string",
+              "description": "A brief description of the category."
+            },
+            "icon": {
+              "type": "string",
+              "description": "A lucide-react name to be used as icon of the category."
+            },
+            "industry": {
+              "type": "string",
+              "description": "a industry that the category belongs to."
+            },
+            "additionalProperties": false
+          }
         },
         "integrationDetails": {
           "type": "object",

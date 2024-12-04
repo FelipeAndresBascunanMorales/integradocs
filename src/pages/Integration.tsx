@@ -131,7 +131,8 @@ export function Integration() {
                 <Building2 className="w-4 h-4 text-gray-400" />
                 <span className="text-sm text-gray-600">Categoría:</span>
                 <span className="font-medium">{integration.category || 'No especificada'}</span>
-                <Link to={`/category/${parameterize(integration?.categoryDetails?.name || integration.category || 'unknown')}`}> <ArrowUpRightFromSquare className='w-4 h-4'/> </Link>
+                {<>{console.log(parameterize(integration.categoryDetails?.name || integration.category || 'unknown'))}</>}
+                <Link to={`/category/${parameterize(integration.categoryDetails?.name || integration.category || 'unknown')}`}> <ArrowUpRightFromSquare className='w-4 h-4'/> </Link>
               </div>
               <div className="flex items-center gap-2">
                 <Code2 className="w-4 h-4 text-gray-400" />
