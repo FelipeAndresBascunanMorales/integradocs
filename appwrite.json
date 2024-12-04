@@ -199,6 +199,20 @@
                     "default": null
                 },
                 {
+                    "key": "implementationTimeEstimate",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 50,
+                    "elements": [
+                        "1-7 días",
+                        "8-15 días",
+                        "15-30 días",
+                        "30+ días"
+                    ],
+                    "format": "enum"
+                },
+                {
                     "key": "integrationDetails",
                     "type": "relationship",
                     "required": false,

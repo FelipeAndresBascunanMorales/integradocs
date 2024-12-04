@@ -14,6 +14,7 @@ export type IntegrationData = {
   tags?: string[];
   pricing?: string[];
   category?: string;
+  implementationTimeEstimate?: "1-7 días" | "8-15 días" | "15-30 días" | "30+ días";
   categoryDetails?: {
     name?: string;
     description?: string;

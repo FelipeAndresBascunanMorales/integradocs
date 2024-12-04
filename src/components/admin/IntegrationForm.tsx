@@ -71,9 +71,6 @@ export function IntegrationForm({ integration, onCancel, onSave }: IntegrationFo
     fetchCategories();
   }, []);
 
-
-
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
