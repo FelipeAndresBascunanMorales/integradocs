@@ -47,7 +47,7 @@ export async function getCategories() {
     import.meta.env.VITE_COLLECTION_ID_CATEGORIES,
     []
   );
-  return response
+  return response as DocumentList
 }
 
 export async function getCategory(category: string) {

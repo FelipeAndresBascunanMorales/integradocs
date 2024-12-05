@@ -9,7 +9,6 @@ export default async ({ req, res, log, error }) => {
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
     .setKey(req.headers['x-appwrite-key'] ?? '');
-  const users = new Users(client);
 
   try {
     //call the other function
@@ -23,13 +22,13 @@ export default async ({ req, res, log, error }) => {
       {},
     );
 
-    log("Function executed successfully", result);
+    log("Function triggered successfully", result);
     
 
     // Log messages and errors to the Appwrite Console
     // These logs won't be seen by your end users
   } catch(err) {
-    error("Could not list users: " + err.message);
+    error("error triggering the other funcion: " + err.message);
   }
 
   // The req object contains the request data

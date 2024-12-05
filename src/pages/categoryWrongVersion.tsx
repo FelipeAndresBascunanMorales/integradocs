@@ -1,37 +1,30 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { createElement, ElementType, useEffect, useState } from 'react';
 import appwriteProvider from '../context/appwriteProvider';
 import IntegrationCardV2 from '../components/IntegrationCard_v2';
 import { Category } from '../types/category';
 import { Integration } from '../types/integration';
+import { parameterize } from '../lib/utils';
 
+//I will use the getCategories function because i havent the name parameterized in the db
 const CategoryPage = () => {  
   const { name = 'unknown' } = useParams<{ name: string }>();
-  const navigate = useNavigate();
-  const { getIntegrationsByCategory, getCategory } = appwriteProvider();
-  
-  // Use state to store the async data
-  const [filteredIntegrations, setFilteredIntegrations] = useState<Integration[]>([]);
+  const { getCategories } = appwriteProvider();
   const [category, setCategory] = useState<Category | null>(null);
 
   // Fetch data on component mount
   useEffect(() => {
     async function fetchData() {
       try {
-        const [categoryData, integrationsData] = await Promise.all([
-          getCategory(name),
-          getIntegrationsByCategory(name)
-        ]);
-        
-        setCategory(categoryData as Category);
-        setFilteredIntegrations(integrationsData.documents as Integration[] || []);
+        const categoriesData = await getCategories();
+        const filteredCategory = categoriesData.documents.find((category) => (parameterize(category.name) === name)) as Category;
+        setCategory(filteredCategory);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     }
-
     fetchData();
-  }, [name, getIntegrationsByCategory, getCategory]);
+  }, [name, getCategories]);
 
   // Update document title when category changes
   useEffect(() => {
@@ -40,10 +33,16 @@ const CategoryPage = () => {
     }
   }, [category]);
 
-  // Navigate away if category doesn't exist
-  
   if (!category) {
-    return null;
+    return <>
+      <div className="text-center py-12">
+        <h1 className="text-2xl font-bold text-gray-900">Integración no encontrada</h1>
+        <p className="mt-2 text-gray-600">La integración que buscas no existe.</p>
+        <Link to={-1 as unknown as string} className="mt-4 inline-block text-indigo-600 hover:text-indigo-500">
+          Volver
+        </Link>
+      </div>
+    </>;
   }
 
   return (
@@ -59,7 +58,7 @@ const CategoryPage = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredIntegrations.map(integration => (
+        {category.integrations.map((integration: Integration) => (
           <IntegrationCardV2
             key={integration.$id} 
             integration={integration} 
@@ -67,7 +66,7 @@ const CategoryPage = () => {
         ))}
       </div>
 
-      {filteredIntegrations.length === 0 && (
+      {category.integrations.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500">
             No hay integraciones disponibles en esta categoría.
