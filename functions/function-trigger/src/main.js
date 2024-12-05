@@ -17,7 +17,7 @@ export default async ({ req, res, log, error }) => {
       process.env.POPULATE_INTEGRATIONS_FUNCION_ID,
       "cron: */10 * * * 3",
       false,
-      "",
+      "/",
       ExecutionMethod.POST,
       {},
     );
