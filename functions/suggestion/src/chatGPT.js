@@ -5,7 +5,8 @@ const openai = new OpenAI();
 async function askForIntegrationSuggestion(propmt = "El usuario no completó el prompt correctamente, provee una respuesta estandard de ejemplo para el usuario", log) {
   try {
     let run = await openai.beta.threads.createAndRun({
-      assistant_id: "asst_d68O0eivNvOexVnVH73hMbSZ",
+      // assistant_id: "asst_d68O0eivNvOexVnVH73hMbSZ",
+      assistant_id: "asst_vIDVejCoGnE6cAE2qfz3cHlq", //new assistant
       thread: {
         messages: [
           { role: "user", content: propmt },

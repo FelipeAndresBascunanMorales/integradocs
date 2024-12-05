@@ -182,8 +182,11 @@ export async function getSuggestion(integrationName: string) {
     {}, // headers (optional)
   );
   const parsedResponse = await JSON.parse(response.responseBody)
-  const parsed = await JSON.parse(parsedResponse.data) as ParamsResults;
-
+  const parsed = await JSON.parse(parsedResponse.data) as Integration[];
+  parsed.forEach((integration) => {
+    saveIntegration(integration)
+  })
+  
   return parsed
 }
 
