@@ -14,12 +14,12 @@ export default async ({ req, res, log, error }) => {
     //call the other function
     const functions = new Functions(client);
     const result = await functions.createExecution(
-      process.env.POPULATE_INTEGRATIONS_FUNCION_ID,
-      JSON.stringify({cron: "*/10 * * * 3"}),
+      process.env.POPULATE_INTEGRATIONS_FUNCTION_ID,
+      JSON.stringify({ cron: "*/10 * * * 3" }),
       false,
       "/",
       ExecutionMethod.POST,
-      {},
+      { "Content-Type": "application/json" }
     );
 
     log("Function triggered successfully", result);
