@@ -1,9 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { getSimpleSuggestion, ParamsResults } from "../context/appwriteProvider";
+import { getSuggestion, ParamsResults } from "../context/appwriteProvider";
 import { useIntegrations } from "../context/integrationsData";
 import { Blocks, Check, Lightbulb } from 'lucide-react'
 import { parameterize } from "../lib/utils";
+import { Integration } from "../types/integration";
 
 const fakeResults = {
   "mainSuggestion": {
@@ -63,45 +64,31 @@ const fakeResults = {
   ]
 }
 
-export default function OurSuggestion() {
+export default function OurSuggestionNew() {
   const [searchParams] = useSearchParams()
   const prompt = searchParams.get('prompt') || '';
   const [isLoading, setIsLoading] = useState(true);
   const showOldVersion = false;
   const { integrations } = useIntegrations();
+  const [ integrationsbyCategory, setIntegrationsByCategory ] = useState<{ [key: string]: Integration[] }>({});
 
-  const [results, setResults] = useState<ParamsResults>({
-    mainSuggestion: {
-      explanation: '',
-    },
-    categories: [
-      {
-        name: 'Example Category',
-        relatedIntegrations: [
-          {
-            title: 'Example Title',
-            description: "",
-            benefits: [],
-            insights: [],
-          }
-        ]
-      }
-    ],
-    alternatives: [
-      {
-        title: 'Alternative Title',
-        description: 'Alternative Description',
-        category: 'Alternative Category',
-      }
-    ]
-  });
+  const [results, setResults] = useState<Integration[]>([]);
 
   useEffect(() => {
     async function getResults() {
       setIsLoading(true);
       try {
-        const completion = await getSimpleSuggestion(prompt) || fakeResults; 
-        setResults(completion);
+        const completion = await getSuggestion(prompt) || fakeResults; 
+        const integrationsByCategory = completion.reduce((acc: { [key: string]: Integration[] }, integration) => {
+          const category = integration.categoryDetails?.name;
+          if (!category) return acc;
+          if (!acc[category]) acc[category] = [];
+          acc[category].push(integration);
+          return acc;
+        }
+        , {});
+        setIntegrationsByCategory(integrationsByCategory);
+        setResults(results);
         
       } catch (error) {
         console.error('Error getting suggestions:', error);
@@ -117,32 +104,32 @@ export default function OurSuggestion() {
 
   // Memoize the recommended integrations section since it involves mapping
   const recommendedIntegrationsSection = useMemo(() => {
-    if (!results.categories[0]?.relatedIntegrations.length) return null;
+    if (!results.length ==! 0) return null;
 
     return (
       <div>
         
         <h2 className="text-4xl p-4 mb-4 text-center">Integraciones recomendadas</h2>
-        {results.categories.map((category) => (
-          <div key={category.name}>
-            <h2 className="text-xl font-semibold mb-4">{category.name}</h2>
+        {Object.entries(integrationsbyCategory).map(([categoryName, integrations]) => (
+          <div key={categoryName}>
+            <h2 className="text-xl font-semibold mb-4">{categoryName}</h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {category.relatedIntegrations.map((integration) => (
+              {integrations.map((integration) => (
                 <div className="group flex flex-col h-full text-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
                   <Link
-                    to={`/integration/${parameterize(integration.title)}`}
-                    state={ (integrations.find((i) => i.name == integration.title)) }
+                    to={`/integration/${parameterize(integration.name)}`}
+                    state={ (integrations.find((i) => i.name == integration.name)) }
                     className=""
                   >
                   <div className="flex-1">
                     <Blocks className="h-8 w-8 mx-auto text-indigo-600 group-hover:scale-110 transition-transform duration-300" />
                     <h3 className="mt-4 text-lg font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-300">
-                      {integration.title}
+                      {integration.name}
                     </h3>
                     <p className="mt-2 text-sm text-gray-500">{integration.description}</p>
                   </div>
                 </Link>
-
+{/* 
                     {(integration.benefits?.length > 0 || integration.insights?.length > 0) && (
                       <div className="mt-4 text-left">
                         {integration.benefits?.length > 0 && (
@@ -177,9 +164,9 @@ export default function OurSuggestion() {
                           </div>
                         )}
                       </div>
-                    )}
+                    )} */}
                   <Link
-                    to={`/integration/${parameterize(integration.title)}`}
+                    to={`/integration/${parameterize(integration.name)}`}
                     className="place-self-end mt-auto pt-4 pb-1 text-indigo-600 font-medium hover:text-indigo-500"
                   >
                     ver en detalle
@@ -198,15 +185,15 @@ export default function OurSuggestion() {
 
     return (
       <div className="bg-gray-50 rounded-lg p-6">
-        <h3 className="text-lg font-semibold mb-4">Otras alternativas a considerar</h3>
+        {/* <h3 className="text-lg font-semibold mb-4">Otras alternativas a considerar</h3>
         <div className="space-y-4">
-          {results.alternatives.map((alt, index) => (
+          {results?.alternatives.map((alt, index) => (
             <div key={index} className="bg-white p-4 rounded-lg">
               <h4 className="font-medium">{alt.title}</h4>
               <p className="text-gray-600">{alt.description}</p>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     );
   }, [showOldVersion, results.alternatives]);
@@ -234,7 +221,7 @@ export default function OurSuggestion() {
         <div className="bg-white rounded-lg shadow p-6">
           <h1 className="text-2xl font-bold mb-4">Resultados para: "{prompt}"</h1>
           <div className="prose max-w-none">
-            <p>{results.mainSuggestion?.explanation}</p>
+            {/* <p>{results.mainSuggestion?.explanation}</p> */}
           </div>
         </div>
 
@@ -256,7 +243,7 @@ export default function OurSuggestion() {
           <div className="bg-white rounded-lg shadow-sm p-6">
             <h2 className="text-xl font-bold mb-4">Solución recomendada</h2>
             <div className="prose">
-              <p>{results.mainSuggestion?.explanation}</p>
+              {/* <p>{results.mainSuggestion?.explanation}</p> */}
             </div>
           </div>
 

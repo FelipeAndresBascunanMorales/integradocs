@@ -190,6 +190,21 @@ export async function getSuggestion(integrationName: string) {
   return parsed
 }
 
+export async function getSimpleSuggestion(integrationName: string) {
+  const response = await functions.createExecution(
+    import.meta.env.VITE_FUNCTION_ID_SUGGESTION,
+    '', // body (optional)
+    false, // async (optional)
+    `/?prompt=${encodeURIComponent(integrationName)}`, // path (optional)
+    ExecutionMethod.GET, // method (optional)
+    {}, // headers (optional)
+  );
+  const parsedResponse = await JSON.parse(response.responseBody)
+  const parsed = await JSON.parse(parsedResponse.data) as ParamsResults;
+    
+  return parsed
+}
+
 export async function submitContactForm(formData: { name: string; email: string; message: string; company: string; phone: string; }) {
   const response = await database.createDocument(
     import.meta.env.VITE_DATABASE_ID_VEELOTU,

@@ -7,8 +7,11 @@ export default async ({ req, log, res, error }) => {
   log("req");
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
   let htmlResponse = '<html><body><div>integration not found</div></body></html>'
+
+  // this method is used to return a new single integration
   if (req.method === 'GET' && req.params?.prompt) {
     try {
+      log("we are in the get method using params atribute")
       const integration = await getIntegration(req, log);
       const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
       htmlResponse = `<html><body><h1>Integration successfully retrieved and stored.</h1><div>${integrationDocument}</div><div>${integrationsDetailsDocument}</div></body></html>`;
@@ -23,7 +26,27 @@ export default async ({ req, log, res, error }) => {
     });
   }
 
+  if (req.method === 'POST' && req.params?.prompt) {
+    try {
+      log("we are in the POST method using params atribute prompt")
+      const integration = await getIntegration(req, log);
+      const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
+      htmlResponse = `<html><body><h1>Integration successfully retrieved and stored.</h1><div>${integrationDocument}</div><div>${integrationsDetailsDocument}</div></body></html>`;
+    }
+    catch (err) {
+      return res.json({ ok: false, error: err }, 400);
+    }
+    return res.text(
+      htmlResponse
+      , 200, {
+      'Content-Type': 'text/html; charset=utf-8',
+    });
+  }
+
+
+  // this method is used to return a new single integration to complete the Form in the admin panel
   if (req.method === 'GET' && req.query?.prompt) {
+    log("we are in the get method using query atribute probably we are completing the form in the admin panel")
     try {
       const integration = await getIntegration(req, log);
       return res.json({ ok: true, integration }, 200);
