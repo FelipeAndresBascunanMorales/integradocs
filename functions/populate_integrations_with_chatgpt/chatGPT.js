@@ -89,7 +89,7 @@ async function askForIntegrationList() {
 async function apiInteraction(systemInstruction, kindOfIntegration, schema) {
   return await openai.chat.completions.create({
     model: "gpt-4o",
-    temperature: 0.2,
+    temperature: 0.3,
     messages: [
       {
         "role": "system",
@@ -110,7 +110,7 @@ async function apiInteraction(systemInstruction, kindOfIntegration, schema) {
         ]
       }
     ],
-    max_tokens: 2048,
+    max_tokens: 4096,
     frequency_penalty: 0,
     presence_penalty: 0,
     response_format: {

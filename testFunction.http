@@ -31,7 +31,7 @@ GET https://674a4efa5ad1cf2d342a.appwrite.global/?prompt=videollamadas HTTP/1.1
 # hitting this endpoint condition: (req.method === 'POST' && req.body?.cron
 POST http://localhost:3000/ HTTP/1.1
 Content-Type: application/json
-
-{
-  "cron": "0 0 * * *"
-}
+  
+  {
+    "cron": "0 0 * * *"
+  }
