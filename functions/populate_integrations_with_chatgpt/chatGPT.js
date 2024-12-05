@@ -33,12 +33,25 @@ async function askForManyIntegrations(integrationRequirement, log, error) {
 
 async function askToComplementTheListWithIntegrations(integrationList, log, error) {
   try {
-    const systemInstruction = "You are an integrations specialist, we need to populate our database with accurate data, to resolve that, you must return acurate details for each integration in a json object format using real life info from the web. the natural behavior of the user is to ask for more integrations to complement the list, so you must provide a list of integrations that complement the list the user provides, you can create new categories or use the existing ones"
-    const requirement = `We already have successfully populated the list below, fell free choose what new integrations must we add to complement this list and have a robust and reliable database: " ${integrationList}`
+    const systemInstruction = `Eres un especialista en integraciones tecnológicas para el mercado chileno. 
+    Tu objetivo es enriquecer nuestra base de datos con información precisa y relevante para las necesidades locales.
     
+    Debes retornar detalles precisos para cada integración en formato JSON, usando información real y actualizada.
+    Las integraciones deben considerar:
+    - Servicios populares y establecidos en Chile
+    - Soluciones que resuelvan problemas específicos del mercado local
+    - Compatibilidad con regulaciones chilenas (ej: SII, normativas locales)
+    - Opciones tanto para empresas grandes como para PYMEs
+    
+    Puedes:
+    1. Crear nuevas categorías si identificas necesidades no cubiertas
+    2. Complementar categorías existentes con integraciones relevantes
+    3. Sugerir integraciones que faciliten el cumplimiento normativo chileno
+    4. Recomendar soluciones que se adapten al contexto tecnológico local`
+    const requirement = `Ya tenemos las siguientes integraciones en nuestra base de datos. 
+    Por favor, sugiere qué nuevas integraciones deberíamos agregar para complementar este listado y tener una base de datos robusta y confiable, considerando especialmente el contexto chileno: ${integrationList}`    
     const response = await apiInteraction(systemInstruction, requirement, integrationListSchema);
     const jsonResponse = response.choices[0].message.content;
-    log("***jsonResponse");
     return JSON.parse(jsonResponse)?.integrations;
     }catch (err) {
       error("*** error from chatgpt: " + err);
@@ -52,7 +65,7 @@ async function askForIntegrationList() {
       assistant_id: "asst_IUZu3929hRbRkgAElXrlR7bn",
       thread: {
         messages: [
-          { role: "user", content: "generate an a json for an transbank integration" },
+          { role: "user", content: "generate an a json for a transbank integration" },
         ],
       },
     });

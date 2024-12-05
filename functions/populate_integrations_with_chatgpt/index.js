@@ -4,7 +4,7 @@ import { throwIfMissing } from './utils.js';
 
 export default async ({ req, log, res, error }) => {
   log("everything will be alright");
-  log("req");
+
   throwIfMissing(process.env, ['OPENAI_API_KEY']);
   let htmlResponse = '<html><body><div>integration not found</div></body></html>'
 
@@ -57,6 +57,34 @@ export default async ({ req, log, res, error }) => {
   }
 
 
+  // method to populate the database using CRON
+  if (req.method === 'POST' && req.body?.cron) {
+    log("we are in the post method using params atribute cron")
+    
+    try {
+      
+      // get the list of categories and their integrations
+      const integrationsByCategory = await getIntegrationsByCategory(log);
+      log("integrationsByCategory!!", integrationsByCategory);
+      const integrationsList = await askToComplementTheListWithIntegrations(integrationsByCategory, log, error);
+      
+      log("integrationsList");
+      await Promise.all(integrationsList.map(async integration => {
+        log("integration!", integration);
+        const { integrationDocument, integrationsDetailsDocument, categoryDocument } = await writeToCollection(integration);
+        log("integrations", integrationDocument);
+        log("integrationsDetails", integrationsDetailsDocument);
+        log("category", categoryDocument);
+      }));
+    }
+    catch (err) {
+      error("something wroooong! in the cron execution", err);
+      return res.json({ ok: false, error: err }, 400);
+    }
+    return res.json({ ok: true }, 201);
+  };
+  
+  
   if (req.method === 'POST') {
     log("we are in the post method")
     try {
@@ -72,31 +100,6 @@ export default async ({ req, log, res, error }) => {
     }
     catch (err) {
       error("something wroooong!", err);
-      return res.json({ ok: false, error: err }, 400);
-    }
-    return res.json({ ok: true }, 201);
-  };
-  
-  // method to populate the database using CRON
-  if (req.method === 'POST' && req.body?.cron) {
-    log("we are in the post method using params atribute cron")
-    
-    try {
-      
-      // get the list of categories and their integrations
-      const integrationsByCategory = await getIntegrationsByCategory(log);
-      const integrationsList = await askToComplementTheListWithIntegrations(integrationsByCategory, log, error);
-      
-      log("integrationsList");
-      await Promise.all(integrationsList.map(async integration => {
-        const { integrationDocument, integrationsDetailsDocument, categoryDocument } = await writeToCollection(integration);
-        log("integrations", integrationDocument);
-        log("integrationsDetails", integrationsDetailsDocument);
-        log("category", categoryDocument);
-      }));
-    }
-    catch (err) {
-      error("something wroooong! in the cron execution", err);
       return res.json({ ok: false, error: err }, 400);
     }
     return res.json({ ok: true }, 201);
@@ -139,7 +142,7 @@ async function writeToCollection(integration) {
       process.env.DATABASE_ID_VEELOTU,
       process.env.COLLECTION_ID_CATEGORIES,
       categoryID,
-      integration.category,
+      integration.categoryDetails,
       []
     );
   }
@@ -178,14 +181,11 @@ async function getIntegrationsByCategory(log) {
   );
   log("categories! from getIntegrationsbyCategory", integrationsByCategory);
 
-  return integrationsByCategory.documents.flatMap(category => {
-    return category.integrations.map(integration => {
-      return {
-        category: category.name,
-        integration: integration.name
-      }
-    });
-  }
-  );
+  return integrationsByCategory.documents.map(category => {
+    return {
+      category: category.name,
+      integrations: category.integrations.map(i => i.name)
+    }
+  });
 }
 

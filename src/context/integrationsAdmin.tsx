@@ -21,6 +21,7 @@ export function useIntegrations() {
   };
 
   const deleteIntegration = (id: string) => {
+    appwriteProvider().deleteIntegration(id);
     setIntegrations(integrations.filter(i => i.id !== id));
   };
 

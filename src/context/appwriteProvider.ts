@@ -158,6 +158,16 @@ export async function saveIntegration(integration: NewIntegration) {
   return {responseIntegration, responseIntegrationDetails}
 }
 
+
+export async function deleteIntegration(integrationID: string) {
+  const response = await database.deleteDocument(
+    import.meta.env.VITE_DATABASE_ID_VEELOTU,
+    import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
+    integrationID
+  );
+  return response
+}
+
 const functions = new Functions(client);
 
 export async function getIntegrationCompletion(integrationName: string) {
@@ -225,6 +235,7 @@ export default function appwriteProvider() {
     getIntegrationCompletion,
     getCategories,
     getCategory,
+    deleteIntegration,
   }
 }
 

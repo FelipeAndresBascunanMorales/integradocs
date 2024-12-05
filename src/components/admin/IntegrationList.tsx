@@ -28,6 +28,7 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
   const handleDelete = (id: string) => {
     if (confirm('¿Estás seguro de que deseas eliminar esta integración?')) {
       deleteIntegration(id);
+      setIntegrations(integrations.filter((integration) => integration.$id !== id));
     }
   };
 
