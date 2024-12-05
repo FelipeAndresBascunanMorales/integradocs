@@ -58,8 +58,8 @@ export default async ({ req, log, res, error }) => {
 
 
   // method to populate the database using CRON
-  if (req.method === 'POST' && req.body?.cron) {
-    log("we are in the post method using params atribute cron")
+  if (req.method === 'POST') {
+    log("we are in the post method using params atribute to be triggered by the cron")
     
     try {
       
@@ -85,7 +85,7 @@ export default async ({ req, log, res, error }) => {
   };
   
   
-  if (req.method === 'POST') {
+  if (req.method === 'POST' && req.body?.some_body_attribute) {
     log("we are in the post method")
     try {
       const integrationRequirement = JSON.stringify(req.body?.integrations);
