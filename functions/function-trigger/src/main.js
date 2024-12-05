@@ -15,7 +15,7 @@ export default async ({ req, res, log, error }) => {
     const functions = new Functions(client);
     const result = await functions.createExecution(
       process.env.POPULATE_INTEGRATIONS_FUNCION_ID,
-      "cron: */10 * * * 3",
+      JSON.stringify({cron: "*/10 * * * 3"}),
       false,
       "/",
       ExecutionMethod.POST,
