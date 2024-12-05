@@ -1,5 +1,5 @@
-import { database, ID } from './appwriteProvider.js';
-import { askForOneIntegration, askForManyIntegrations } from './chatGPT.js';
+import { database, ID, Query } from './appwriteProvider.js';
+import { askForOneIntegration, askForManyIntegrations, askToComplementTheListWithIntegrations } from './chatGPT.js';
 import { throwIfMissing } from './utils.js';
 
 export default async ({ req, log, res, error }) => {
@@ -13,8 +13,8 @@ export default async ({ req, log, res, error }) => {
     try {
       log("we are in the get method using params atribute")
       const integration = await getIntegration(req, log);
-      const {integrationDocument, integrationsDetailsDocument} = await writeToCollection(integration);
-      htmlResponse = `<html><body><h1>Integration successfully retrieved and stored.</h1><div>${integrationDocument}</div><div>${integrationsDetailsDocument}</div></body></html>`;
+      const {integrationDocument, integrationsDetailsDocument, categoryDocument} = await writeToCollection(integration);
+      htmlResponse = `<html><body><h1>Integration successfully retrieved and stored.</h1><div>${integrationDocument}</div><div>${integrationsDetailsDocument}</div><div>${categoryDocument}</div></body></html>`;
     }
     catch (err) {
       return res.json({ ok: false, error: err }, 400);
@@ -76,8 +76,35 @@ export default async ({ req, log, res, error }) => {
     }
     return res.json({ ok: true }, 201);
   };
-  return res.json({ ok: true }, 201);
+  
+  // method to populate the database using CRON
+  if (req.method === 'POST' && req.body?.cron) {
+    log("we are in the post method using params atribute cron")
+    
+    try {
+      
+      // get the list of categories and their integrations
+      const integrationsByCategory = await getIntegrationsByCategory(log);
+      const integrationsList = await askToComplementTheListWithIntegrations(integrationsByCategory, log, error);
+      
+      log("integrationsList");
+      await Promise.all(integrationsList.map(async integration => {
+        const { integrationDocument, integrationsDetailsDocument, categoryDocument } = await writeToCollection(integration);
+        log("integrations", integrationDocument);
+        log("integrationsDetails", integrationsDetailsDocument);
+        log("category", categoryDocument);
+      }));
+    }
+    catch (err) {
+      error("something wroooong! in the cron execution", err);
+      return res.json({ ok: false, error: err }, 400);
+    }
+    return res.json({ ok: true }, 201);
+  };
+  
+return res.json({ ok: true }, 201);
 }
+
 
 async function getIntegration(req, log) {
   const param = req.query?.prompt;
@@ -86,11 +113,41 @@ async function getIntegration(req, log) {
 }
 
 async function writeToCollection(integration) {
-  const innerID = ID.unique();
+  const integrationsDetailsID = ID.unique();
+  const integrationID = ID.unique();
+
+  // get the category from the integration
+  const categoryName = integration.category;
+  const category = await database.listDocuments(
+    process.env.DATABASE_ID_VEELOTU,
+    process.env.COLLECTION_ID_CATEGORIES,
+    [
+      Query.equal('name', categoryName)
+    ]
+  );
+
+  let categoryID;
+  let categoryDocument;
+
+  if (category.documents.length > 0) {
+    categoryID = category.documents[0].$id;
+    categoryDocument = category;
+  }
+  else {
+    categoryID = ID.unique();
+    categoryDocument = await database.createDocument (
+      process.env.DATABASE_ID_VEELOTU,
+      process.env.COLLECTION_ID_CATEGORIES,
+      categoryID,
+      integration.category,
+      []
+    );
+  }
+
   const integrationsDetailsDocument = await database.createDocument (
     process.env.DATABASE_ID_VEELOTU,
     process.env.COLLECTION_ID_INTEGRATION_DETAILS,
-    innerID,
+    integrationsDetailsID,
     integration.integrationDetails,
     []
   );
@@ -98,11 +155,37 @@ async function writeToCollection(integration) {
   const integrationDocument = await database.createDocument (
     process.env.DATABASE_ID_VEELOTU,
     process.env.COLLECTION_ID_INTEGRATIONS,
-    ID.unique(),
-    {...integration, integrationDetails: innerID},
+    integrationID,
+    {...integration, integrationDetails: integrationsDetailsID, categoryDetails: categoryID},
     []
   );
 
-  return {integrationDocument, integrationsDetailsDocument};
+  await database.updateDocument (
+    process.env.DATABASE_ID_VEELOTU,
+    process.env.COLLECTION_ID_CATEGORIES,
+    categoryID,
+    {integrations: [integrationID]}
+  );
+
+  return {integrationDocument, integrationsDetailsDocument, categoryDocument};
+}
+
+async function getIntegrationsByCategory(log) {
+  const integrationsByCategory = await database.listDocuments(
+    process.env.DATABASE_ID_VEELOTU,
+    process.env.COLLECTION_ID_CATEGORIES,
+    [Query.select(['name', 'integrations.name'])]
+  );
+  log("categories! from getIntegrationsbyCategory", integrationsByCategory);
+
+  return integrationsByCategory.documents.flatMap(category => {
+    return category.integrations.map(integration => {
+      return {
+        category: category.name,
+        integration: integration.name
+      }
+    });
+  }
+  );
 }
 

@@ -31,6 +31,21 @@ async function askForManyIntegrations(integrationRequirement, log, error) {
     }
 }
 
+async function askToComplementTheListWithIntegrations(integrationList, log, error) {
+  try {
+    const systemInstruction = "You are an integrations specialist, we need to populate our database with accurate data, to resolve that, you must return acurate details for each integration in a json object format using real life info from the web. the natural behavior of the user is to ask for more integrations to complement the list, so you must provide a list of integrations that complement the list the user provides, you can create new categories or use the existing ones"
+    const requirement = `We already have successfully populated the list below, fell free choose what new integrations must we add to complement this list and have a robust and reliable database: " ${integrationList}`
+    
+    const response = await apiInteraction(systemInstruction, requirement, integrationListSchema);
+    const jsonResponse = response.choices[0].message.content;
+    log("***jsonResponse");
+    return JSON.parse(jsonResponse)?.integrations;
+    }catch (err) {
+      error("*** error from chatgpt: " + err);
+      throw new Error("Error in conversation: " + err);
+    }
+}
+
 async function askForIntegrationList() {
   try {
     const run = await openai.beta.threads.createAndRun({
@@ -92,4 +107,4 @@ async function apiInteraction(systemInstruction, kindOfIntegration, schema) {
   })
 }
 
-  export { askForIntegrationList, askForOneIntegration, askForManyIntegrations };
+  export { askForIntegrationList, askForOneIntegration, askForManyIntegrations, askToComplementTheListWithIntegrations };
