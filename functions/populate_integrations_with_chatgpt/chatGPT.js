@@ -36,20 +36,22 @@ async function askToComplementTheListWithIntegrations(integrationList, log, erro
     const systemInstruction = `Eres un especialista en integraciones tecnológicas para el mercado chileno. 
     Tu objetivo es enriquecer nuestra base de datos con información precisa y relevante para las necesidades locales.
     
-    Debes retornar detalles precisos para cada integración en formato JSON, usando información real y actualizada.
+    Debes retornar nuevas integraciones detalles precisos en formato JSON, usando información real y actualizada.
     Las integraciones deben considerar:
     - Servicios populares y establecidos en Chile
     - Soluciones que resuelvan problemas específicos del mercado local
     - Compatibilidad con regulaciones chilenas (ej: SII, normativas locales)
     - Opciones tanto para empresas grandes como para PYMEs
-    
+    - Deben ser integraciones adicionales a las ya existentes en la base de datos
+
     Puedes:
-    1. Crear nuevas categorías si identificas necesidades no cubiertas
-    2. Complementar categorías existentes con integraciones relevantes
+    1. Crear nuevas integraciones
+    2. Crear nuevas categorías o complementar las categorías ya existentes con integraciones adicionales
     3. Sugerir integraciones que faciliten el cumplimiento normativo chileno
     4. Recomendar soluciones que se adapten al contexto tecnológico local`
+
     const requirement = `Ya tenemos las siguientes integraciones en nuestra base de datos. 
-    Por favor, sugiere qué nuevas integraciones deberíamos agregar para complementar este listado y tener una base de datos robusta y confiable, considerando especialmente el contexto chileno: ${integrationList}`    
+    Por favor, sugiere qué nuevas integraciones deberíamos agregar para complementar este listado y tener una base de datos robusta y confiable: ${integrationList}`
     const response = await apiInteraction(systemInstruction, requirement, integrationListSchema);
     const jsonResponse = response.choices[0].message.content;
     return JSON.parse(jsonResponse)?.integrations;
@@ -88,8 +90,8 @@ async function askForIntegrationList() {
 
 async function apiInteraction(systemInstruction, kindOfIntegration, schema) {
   return await openai.chat.completions.create({
-    model: "gpt-4o",
-    temperature: 0.3,
+    model: "gpt-4o-mini",
+    temperature: 0.6,
     messages: [
       {
         "role": "system",
