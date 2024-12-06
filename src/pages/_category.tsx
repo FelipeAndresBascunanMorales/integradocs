@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { createElement, ElementType, useEffect, useState } from 'react';
 import appwriteProvider from '../context/appwriteProvider';
 import IntegrationCardV2 from '../components/IntegrationCard_v2';
@@ -8,7 +8,6 @@ import { Integration } from '../types/integration';
 //I will use the getCategories function because i havent the name parameterized in the db
 const CategoryPage = () => {  
   const { name = 'unknown' } = useParams<{ name: string }>();
-  const navigate = useNavigate();
   const { getIntegrationsByCategory, getCategory } = appwriteProvider();
   
   // Use state to store the async data

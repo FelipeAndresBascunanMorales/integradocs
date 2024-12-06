@@ -1,8 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { getSuggestion, ParamsResults } from "../context/appwriteProvider";
-import { useIntegrations } from "../context/integrationsData";
-import { Blocks, Check, Lightbulb } from 'lucide-react'
+import { getSuggestion } from "../context/appwriteProvider";
+import { Blocks } from 'lucide-react'
 import { parameterize } from "../lib/utils";
 import { Integration } from "../types/integration";
 
@@ -69,7 +68,6 @@ export default function OurSuggestionNew() {
   const prompt = searchParams.get('prompt') || '';
   const [isLoading, setIsLoading] = useState(true);
   const showOldVersion = false;
-  const { integrations } = useIntegrations();
   const [ integrationsbyCategory, setIntegrationsByCategory ] = useState<{ [key: string]: Integration[] }>({});
 
   const [results, setResults] = useState<Integration[]>([]);
@@ -177,7 +175,7 @@ export default function OurSuggestionNew() {
           </div>))}
       </div>
     );
-  }, [results.categories]);
+  }, [integrationsbyCategory, results.length]);
 
   // Memoize alternatives section for the old version
   const alternativesSection = useMemo(() => {
@@ -196,7 +194,7 @@ export default function OurSuggestionNew() {
         </div> */}
       </div>
     );
-  }, [showOldVersion, results.alternatives]);
+  }, [showOldVersion]);
 
   if (isLoading) {
     return (

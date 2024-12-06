@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { getCategories, latestIntegrations } from './appwriteProvider.js'
+import { latestIntegrations } from './appwriteProvider.js'
 import { Integration } from '../types/integration.js';
 import { Category } from '../types/category.js';
 

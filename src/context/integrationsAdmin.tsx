@@ -6,7 +6,7 @@ import { Category } from '../types/category.js';
 
 export function useIntegrations() {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [, setCategories] = useState<Category[]>([]);
 
   const addIntegration = useCallback((integration: NewIntegration) => {
     appwriteProvider().saveIntegration(integration);

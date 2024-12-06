@@ -159,7 +159,7 @@ export async function saveIntegration(integration: NewIntegration) {
   //   }
   // );
   
-  return {responseIntegration, responseIntegrationDetails}
+  return {responseIntegration, responseIntegrationDetails, responseCategoryDetails}
 }
 
 
