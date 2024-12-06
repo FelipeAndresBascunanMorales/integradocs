@@ -15,13 +15,17 @@ type IntegrationListProps = {
 export function IntegrationList({ onEdit, editingId, onEditComplete }: IntegrationListProps) {
   const { getIntegrations, deleteIntegration } = useIntegrations();
   const [integrations, setIntegrations] = useState<Integration[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
-      const allIntegrations = await getIntegrations();
+      const allIntegrations = await getIntegrations(page);
       setIntegrations(allIntegrations.documents as Integration[]);
+      setTotal(allIntegrations.total)
     }
     fetchData();
+
   }, [getIntegrations]);
 
 
@@ -38,6 +42,7 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
 
   return (
     <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+      <i>{total} integraciones</i>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>

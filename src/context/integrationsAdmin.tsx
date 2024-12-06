@@ -25,8 +25,8 @@ export function useIntegrations() {
     setIntegrations(integrations.filter(i => i.id !== id));
   };
 
-  const getIntegrations = useCallback(async () => {
-    const response = await appwriteProvider().getIntegrations();
+  const getIntegrations = useCallback(async (page = 0) => {
+    const response = await appwriteProvider().getIntegrations(page);
     setIntegrations(response.documents as Integration[]);
     return response;
   }, []);

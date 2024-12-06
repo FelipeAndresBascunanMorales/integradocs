@@ -45,6 +45,7 @@ async function askToComplementTheListWithIntegrations(integrationList, log, erro
     - Deben ser integraciones adicionales a las ya existentes en la base de datos
 
     Puedes:
+    0. nunca repetir integraciones ya existentes
     1. Crear nuevas integraciones
     2. Crear nuevas categorías o complementar las categorías ya existentes con integraciones adicionales
     3. Sugerir integraciones que faciliten el cumplimiento normativo chileno

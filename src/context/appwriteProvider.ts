@@ -32,11 +32,15 @@ export interface ParamsResults {
 export type DocumentList = Models.DocumentList<Document>;
 export type Document = Models.Document;
 
-export async function getIntegrations() {
+export async function getIntegrations(page = 0) {
   const response = await database.listDocuments(
     import.meta.env.VITE_DATABASE_ID_VEELOTU,
     import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
-    [Query.orderDesc("$createdAt")]
+    [
+      Query.orderDesc("$createdAt"),
+      Query.limit(25),
+      Query.offset(page * (25 - 1))
+    ]
   );
   return response
 }
