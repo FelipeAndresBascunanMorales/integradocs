@@ -17,16 +17,17 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
   const [integrations, setIntegrations] = useState<Integration[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     async function fetchData() {
       const allIntegrations = await getIntegrations(page);
       setIntegrations(allIntegrations.documents as Integration[]);
       setTotal(allIntegrations.total)
     }
-    fetchData();
-
-  }, [getIntegrations]);
+    fetchData().finally(() => setLoading(false))
+  }, [getIntegrations, page]);
 
 
   const handleDelete = (id: string) => {
@@ -42,7 +43,6 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
 
   return (
     <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-      <i>{total} integraciones</i>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
@@ -129,6 +129,31 @@ export function IntegrationList({ onEdit, editingId, onEditComplete }: Integrati
           )))}
         </tbody>
       </table>
+      <div className='text-center'>
+      <button
+        className="bg-gray-800 text-white py-1 px-4 rounded rounded-tl-lg rounded-bl-lg disabled:bg-gray-400"
+        type='button'
+        onClick={() => {
+          setPage(prev => (prev > 0 ? prev - 1 : prev));
+          setLoading(true)
+        }}
+        disabled={loading}>
+          prev page
+        </button>
+        <span className='p-2'>{page + 1}</span>
+        <button
+          className="bg-gray-800 text-white py-1 px-4 rounded rounded-tr-lg rounded-br-lg disabled:bg-gray-400"
+          type='button'
+          onClick={() => {
+            setPage(prev => prev + 1);
+            setLoading(true)
+          }}
+          disabled={loading}>
+          next page
+        </button>
+        <br />
+        <i>{total} integraciones</i>
+      </div>
     </div>
   );
 }
