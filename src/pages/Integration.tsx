@@ -21,6 +21,7 @@ import { parameterize } from '../lib/utils';
 
 export function Integration() {
   const location = useLocation();
+  console.log(location)
   const integration = location?.state as IntegrationType;
 
   if (!integration) {

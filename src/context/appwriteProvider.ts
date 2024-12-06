@@ -19,6 +19,7 @@ export interface ParamsResults {
       description: string;
       benefits: string[];
       insights: string[];
+      link: string;
     }[];
   }[]
   alternatives: {
@@ -40,6 +41,17 @@ export async function getIntegrations(page = 0) {
       Query.orderDesc("$createdAt"),
       Query.limit(25),
       Query.offset(page * (25 - 1))
+    ]
+  );
+  return response
+}
+
+export async function getIntegrationsByName(integrations: string[]) {
+  const response = await database.listDocuments(
+    import.meta.env.VITE_DATABASE_ID_VEELOTU,
+    import.meta.env.VITE_COLLECTION_ID_INTEGRATIONS,
+    [
+      Query.contains("name", integrations)
     ]
   );
   return response
@@ -215,7 +227,6 @@ export async function getSimpleSuggestion(integrationName: string) {
   );
   const parsedResponse = await JSON.parse(response.responseBody)
   const parsed = await JSON.parse(parsedResponse.data) as ParamsResults;
-    
   return parsed
 }
 
@@ -240,6 +251,7 @@ export default function appwriteProvider() {
     getCategories,
     getCategory,
     deleteIntegration,
+    getIntegrationsByName
   }
 }
 

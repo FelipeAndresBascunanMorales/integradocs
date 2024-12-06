@@ -11,19 +11,24 @@ const CategoryPage = () => {
   const { name = 'unknown' } = useParams<{ name: string }>();
   const { getCategories } = appwriteProvider();
   const [category, setCategory] = useState<Category | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // Fetch data on component mount
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const categoriesData = await getCategories();
-        const filteredCategory = categoriesData.documents.find((category) => (parameterize(category.name) === name)) as Category;
-        setCategory(filteredCategory);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      async function fetchData() {
+        setLoading(true)
+        try {
+          const categoriesData = await getCategories();
+          const filteredCategory = categoriesData.documents.find((category) => (parameterize(category.name) === name)) as Category;
+          setCategory(filteredCategory);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+        finally {
+          setLoading(false)
+        }    
       }
-    }
-    fetchData();
+      fetchData();
   }, [name, getCategories]);
 
   // Update document title when category changes
@@ -33,7 +38,13 @@ const CategoryPage = () => {
     }
   }, [category]);
 
-  if (!category) {
+  if (loading) {
+    return <div className='text-center'>
+    <span>loading...</span>
+    </div>
+  }
+
+  else if (!category) {
     return <>
       <div className="text-center py-12">
         <h1 className="text-2xl font-bold text-gray-900">Integración no encontrada</h1>
